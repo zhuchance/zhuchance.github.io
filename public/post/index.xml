@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Devops k8s go vue</title>
+    <link>https://zhuchance.github.io/post/</link>
+    <description>Recent content in Posts on Devops k8s go vue</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    
+	<atom:link href="https://zhuchance.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://zhuchance.github.io/post/metallb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/metallb/</guid>
+      <description>metalLB 负载均衡 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公网的Load balance的nginx， 为了让k8s集群和旧的swarm集群能同时提供服务。</description>
+    </item>
+    
+  </channel>
+</rss>
