@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jenkins on 北冥鱼 Blog</title>
+    <link>https://zhaohuabing.com/tags/jenkins/</link>
+    <description>Recent content in Jenkins on 北冥鱼 Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 12 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhaohuabing.com/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deployment Jenkins on Kubernetes Cluster</title>
+      <link>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</link>
+      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</guid>
+      <description>Jenkins Deployment Jenkins on Kubernetes Cluster deployment jenkins on k8s cluster The premise is that there is a load balancing 在k8s集群里面部署Jenkins，使用load balance暴露服务 ###jenkins-allinone.yaml ###PVC --- kind: PersistentVolumeClaim apiVersion: v1 metadata: name: jenkins-prd-lb-pvc namespace: kube-ops spec: storageClassName: &amp;#34;managed-nfs-storage&amp;#34;</description>
+    </item>
+    
+  </channel>
+</rss>

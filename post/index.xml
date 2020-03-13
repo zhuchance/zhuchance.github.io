@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Devops k8s go vue</title>
-    <link>https://zhuchance.github.io/post/</link>
-    <description>Recent content in Posts on Devops k8s go vue</description>
+    <title>Posts on 北冥鱼 Blog</title>
+    <link>https://zhaohuabing.com/post/</link>
+    <description>Recent content in Posts on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://zhuchance.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhaohuabing.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title></title>
-      <link>https://zhuchance.github.io/post/metallb/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>k8s使用NFS实现动态存储</title>
+      <link>https://zhaohuabing.com/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://zhuchance.github.io/post/metallb/</guid>
-      <description>metalLB 负载均衡 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公网的Load balance的nginx， 为了让k8s集群和旧的swarm集群能同时提供服务。</description>
+      <guid>https://zhaohuabing.com/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</guid>
+      <description>k8s使用NFS实现动态存储 Storage Classes StorageClass 为管理员提供了描述存储 &amp;ldquo;类&amp;rdquo; 的方法。 不同的类型可能会映射到不同的服务质量等级或备份</description>
+    </item>
+    
+    <item>
+      <title>Team双网卡绑定</title>
+      <link>https://zhaohuabing.com/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</guid>
+      <description>Team 生产环境的服务器使用的是多网卡，系统是centos7，于是将2个网卡绑定成一个网卡实现带宽和冗余都利用起来 cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysconfi</description>
+    </item>
+    
+    <item>
+      <title>Deployment Jenkins on Kubernetes Cluster</title>
+      <link>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</link>
+      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</guid>
+      <description>Jenkins Deployment Jenkins on Kubernetes Cluster deployment jenkins on k8s cluster The premise is that there is a load balancing 在k8s集群里面部署Jenkins，使用load balance暴露服务 ###jenkins-allinone.yaml ###PVC --- kind: PersistentVolumeClaim apiVersion: v1 metadata: name: jenkins-prd-lb-pvc namespace: kube-ops spec: storageClassName: &amp;#34;managed-nfs-storage&amp;#34;</description>
+    </item>
+    
+    <item>
+      <title>metalLB 负载均衡</title>
+      <link>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</link>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</guid>
+      <description>metalLB 负载均衡 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公网的Load b</description>
     </item>
     
   </channel>

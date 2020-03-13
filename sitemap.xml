@@ -3,23 +3,98 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://zhuchance.github.io/post/metallb/</loc>
+    <loc>https://zhaohuabing.com/categories/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://zhuchance.github.io/categories/</loc>
+    <loc>https://zhaohuabing.com/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://zhuchance.github.io/</loc>
+    <loc>https://zhaohuabing.com/tags/kubernetes/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://zhuchance.github.io/post/</loc>
+    <loc>https://zhaohuabing.com/tags/linux/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://zhuchance.github.io/tags/</loc>
+    <loc>https://zhaohuabing.com/tags/network/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/post/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/tags/storage/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/tags/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/categories/tech/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/</loc>
+    <lastmod>2020-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</loc>
+    <lastmod>2020-03-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/tags/jenkins/</loc>
+    <lastmod>2020-03-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</loc>
+    <lastmod>2020-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/tags/tips/</loc>
+    <lastmod>2020-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/search/placeholder/</loc>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/top/about/</loc>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/top/books/</loc>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/search/</loc>
+  </url>
+  
+  <url>
+    <loc>https://zhaohuabing.com/top/</loc>
   </url>
   
 </urlset>

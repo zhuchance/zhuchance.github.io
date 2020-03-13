@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="北冥鱼 Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://zhaohuabing.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://zhaohuabing.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Deployment Jenkins on Kubernetes Cluster" />
+    <meta property="og:title" content="Deployment Jenkins on Kubernetes Cluster" />
+    <meta property="twitter:title" content="Deployment Jenkins on Kubernetes Cluster" />
+    
+
+    
+    <meta name="description" content="通过部署的Jenkins更新Pod镜像">
+    <meta property="og:description" content="通过部署的Jenkins更新Pod镜像" />
+    <meta property="twitter:description" content="通过部署的Jenkins更新Pod镜像" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="北冥鱼, zhuchance, couchacne, 北冥鱼的网络日志, 北冥鱼的博客, Zhuchance Blog, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Python, Kubernetes, Go, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Deployment Jenkins on Kubernetes Cluster-北冥鱼的博客 | zhuchance Blog</title>
+
+    <link rel="canonical" href="/post/2020-03-12-deployment-jenkins-on-k8s-cluster/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">北冥鱼 Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+  header.intro-header {
+    background-image: url('/img/home-bg-jeep.jpg')
+  }
+</style>
+<header class="intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kubernetes" title="Kubernetes">
+              Kubernetes
+            </a>
+            
+            <a class="tag" href="/tags/jenkins" title="Jenkins">
+              Jenkins
+            </a>
+            
+          </div>
+          <h1>Deployment Jenkins on Kubernetes Cluster</h1>
+          <h2 class="subheading">在k8s集群里部署Jenkins</h2>
+          <span class="meta">
+            Posted by
+            
+                 &#34;北冥鱼&#34;
+            
+            on
+            Thursday, March 12, 2020
+            
+            
+            
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+        
+        <header>
+          <h2>TOC</h2>
+        </header>
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#jenkins">Jenkins</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        
+        <h2 id="jenkins">Jenkins</h2>
+<h3 id="deployment-jenkins-on-kubernetes-cluster">Deployment Jenkins on Kubernetes Cluster</h3>
+<ol>
+<li>
+<p>deployment jenkins on k8s cluster
+The premise is that there is a load balancing</p>
+<p>在k8s集群里面部署Jenkins，使用load balance暴露服务</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">###jenkins-allinone.yaml</span>
+<span style="color:#6272a4">###PVC</span>
+---
+<span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
+<span style="color:#ff79c6">apiVersion</span>: v1
+metadata:
+  <span style="color:#ff79c6">name</span>: jenkins-prd-lb-pvc
+  <span style="color:#ff79c6">namespace</span>: kube-ops
+spec:
+  <span style="color:#ff79c6">storageClassName</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span>
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      <span style="color:#ff79c6">storage</span>: 260Gi
+
+<span style="color:#6272a4">###deplayment</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: Deployment
+metadata:
+  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
+  <span style="color:#ff79c6">namespace</span>: kube-ops
+spec:
+  template:
+    metadata:
+      labels:
+        <span style="color:#ff79c6">app</span>: jenkins-prd-lb
+    spec:
+      <span style="color:#ff79c6">terminationGracePeriodSeconds</span>: <span style="color:#bd93f9">10</span>
+      <span style="color:#6272a4">###serviceAccountName: jenkins2</span>
+      containers:
+        - <span style="color:#ff79c6">name</span>: jenkins-prd-lb
+          <span style="color:#ff79c6">image</span>: jenkins/jenkins:lts
+          <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+          ports:
+            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">8080</span>
+              <span style="color:#ff79c6">name</span>: web
+              <span style="color:#ff79c6">protocol</span>: TCP
+            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">50000</span>
+              <span style="color:#ff79c6">name</span>: agent
+              <span style="color:#ff79c6">protocol</span>: TCP
+          resources:
+            limits:
+              <span style="color:#ff79c6">cpu</span>: 2000m
+              <span style="color:#ff79c6">memory</span>: 4Gi
+            requests:
+              <span style="color:#ff79c6">cpu</span>: 1000m
+              <span style="color:#ff79c6">memory</span>: 2Gi
+          livenessProbe:
+            httpGet:
+              <span style="color:#ff79c6">path</span>: /login
+              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
+            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
+            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
+            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
+          readinessProbe:
+            httpGet:
+              <span style="color:#ff79c6">path</span>: /login
+              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
+            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
+            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
+            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
+          volumeMounts:
+            - <span style="color:#ff79c6">name</span>: jenkinshome
+              <span style="color:#ff79c6">subPath</span>: jenkins-prd-lb
+              <span style="color:#ff79c6">mountPath</span>: /var/jenkins_home
+          env:
+            - <span style="color:#ff79c6">name</span>: LIMITS_MEMORY
+              valueFrom:
+                resourceFieldRef:
+                  <span style="color:#ff79c6">resource</span>: limits.memory
+                  <span style="color:#ff79c6">divisor</span>: 1Mi
+            - <span style="color:#ff79c6">name</span>: JAVA_OPTS
+              <span style="color:#ff79c6">value</span>: -Xmx$(LIMITS_MEMORY)m -XshowSettings:vm -Dhudson.slaves.NodeProvisioner.initialDelay=<span style="color:#bd93f9">0</span> -Dhudson.slaves.NodeProvisioner.MARGIN=<span style="color:#bd93f9">50</span> -Dhudson.slaves.NodeProvisioner.MARGIN0=<span style="color:#bd93f9">0.85</span> -Duser.timezone=Asia/Shanghai
+      securityContext:
+        <span style="color:#ff79c6">fsGroup</span>: <span style="color:#bd93f9">1000</span>
+      volumes:
+        - <span style="color:#ff79c6">name</span>: jenkinshome
+          persistentVolumeClaim:
+            <span style="color:#ff79c6">claimName</span>: jenkins-prd-lb-pvc
+<span style="color:#6272a4">###svc</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+metadata:
+  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
+  <span style="color:#ff79c6">namespace</span>: kube-ops
+  labels:
+    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
+spec:
+  selector:
+    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
+  <span style="color:#ff79c6">type</span>: LoadBalancer
+  ports:
+    - <span style="color:#ff79c6">name</span>: web
+      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
+      <span style="color:#ff79c6">targetPort</span>: web
+    - <span style="color:#ff79c6">name</span>: agent
+      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">50000</span>
+      <span style="color:#ff79c6">targetPort</span>: agent
+
+<span style="color:#6272a4">### ingress</span>
+<span style="color:#6272a4">#---</span>
+<span style="color:#6272a4">#apiVersion: extensions/v1beta1</span>
+<span style="color:#6272a4">#kind: Ingress</span>
+<span style="color:#6272a4">#metadata:</span>
+<span style="color:#6272a4">#  name: jenkins-prd</span>
+<span style="color:#6272a4">#  namespace: kube-ops</span>
+<span style="color:#6272a4">#  labels:</span>
+<span style="color:#6272a4">#    app: jenkins-prd</span>
+<span style="color:#6272a4">#spec:</span>
+<span style="color:#6272a4">#  rules:</span>
+<span style="color:#6272a4">#    - host: devops-pro.efivestar.com</span>
+<span style="color:#6272a4">#      http:</span>
+<span style="color:#6272a4">#        paths:</span>
+<span style="color:#6272a4">#          - path: /</span>
+<span style="color:#6272a4">#            backend:</span>
+<span style="color:#6272a4">#              serviceName: jenkins-prd</span>
+<span style="color:#6272a4">#              servicePort: 8080</span>
+
+</code></pre></div><p>2.config jenkins in jenkins dashboard</p>
+<h2 id="heading"></h2>
+<p>配置好jenkins的kubectl的环境变量</p>
+<p>Add  shell script on Jenkins Project</p>
+<p>在jenkins项目里面添加构建后执行的shell脚本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/var/jenkins_home/kubectl -n pre <span style="color:#8be9fd;font-style:italic">set</span> image deployment/nginx <span style="color:#8be9fd;font-style:italic">nginx</span><span style="color:#ff79c6">=</span>wordpress
+
+</code></pre></div>
+
+        
+        
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://zhaohuabing.com"><img src="/img/favicon.png" />北冥鱼 Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wx-pay.jpg"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+        
+
+        <hr>
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/post/2020-03-10-metallb-network-load-balancer/" data-toggle="tooltip" data-placement="top"
+              title="metalLB 负载均衡">&larr;
+              Previous Post</a>
+          </li>
+          
+          
+          <li class="next">
+            <a href="/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/" data-toggle="tooltip" data-placement="top"
+              title="Team双网卡绑定">Next
+              Post &rarr;</a>
+          </li>
+          
+        </ul>
+
+        
+<div id="disqus-comment"></div>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gok8s-club" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      </div>
+      
+      <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+        
+        
+        <section>
+          <hr class="hidden-sm hidden-xs">
+          <h5><a href="/tags/">FEATURED TAGS</a></h5>
+          <div class="tags">
+            
+            
+            
+            
+            
+            <a href="/tags/kubernetes" title="kubernetes">
+              kubernetes
+            </a>
+            
+            
+            
+            <a href="/tags/linux" title="linux">
+              linux
+            </a>
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </section>
+        
+
+        
+        
+        <section>
+          <hr>
+          <h5>FRIENDS</h5>
+          <ul class="list-inline">
+            
+            <li><a target="_blank" href="https://blog.csdn.net/zhuchance">我的CSDN博客</a></li>
+            
+          </ul>
+        </section>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="北冥鱼 Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:couchance@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wx-zhuchance.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/zhuchance">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/couking/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 北冥鱼 Blog 2020
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+<script>
+    
+    var _baId = '8649260b8c796fb4bf3c602e85a0542c';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'https:\/\/www.googletagmanager.com\/gtag\/js?id=UA-160345851-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

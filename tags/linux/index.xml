@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 北冥鱼 Blog</title>
+    <link>https://zhaohuabing.com/tags/linux/</link>
+    <description>Recent content in Linux on 北冥鱼 Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhaohuabing.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s使用NFS实现动态存储</title>
+      <link>https://zhaohuabing.com/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</guid>
+      <description>k8s使用NFS实现动态存储 Storage Classes StorageClass 为管理员提供了描述存储 &amp;ldquo;类&amp;rdquo; 的方法。 不同的类型可能会映射到不同的服务质量等级或备份</description>
+    </item>
+    
+    <item>
+      <title>Team双网卡绑定</title>
+      <link>https://zhaohuabing.com/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</guid>
+      <description>Team 生产环境的服务器使用的是多网卡，系统是centos7，于是将2个网卡绑定成一个网卡实现带宽和冗余都利用起来 cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysconfi</description>
+    </item>
+    
+  </channel>
+</rss>

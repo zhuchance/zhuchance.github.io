@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Devops k8s go vue</title>
-    <link>https://zhuchance.github.io/tags/</link>
-    <description>Recent content in Tags on Devops k8s go vue</description>
+    <title>Tags on 北冥鱼 Blog</title>
+    <link>https://zhaohuabing.com/tags/</link>
+    <description>Recent content in Tags on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://zhuchance.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhaohuabing.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://zhaohuabing.com/tags/kubernetes/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://zhaohuabing.com/tags/linux/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>https://zhaohuabing.com/tags/network/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Storage</title>
+      <link>https://zhaohuabing.com/tags/storage/</link>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/storage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jenkins</title>
+      <link>https://zhaohuabing.com/tags/jenkins/</link>
+      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/jenkins/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tips</title>
+      <link>https://zhaohuabing.com/tags/tips/</link>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/tags/tips/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
