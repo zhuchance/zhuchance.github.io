@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Load Balancer on 北冥鱼 Blog</title>
-    <link>https://zhaohuabing.com/tags/load-balancer/</link>
+    <link>https://zhuchance.github.io/tags/load-balancer/</link>
     <description>Recent content in Load Balancer on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://zhaohuabing.com/tags/load-balancer/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhuchance.github.io/tags/load-balancer/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>上篇-MetalLB 裸金属负载均衡安装与使用</title>
-      <link>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</link>
+      <link>https://zhuchance.github.io/post/2020-03-10-metallb-network-load-balancer/</link>
       <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</guid>
+      <guid>https://zhuchance.github.io/post/2020-03-10-metallb-network-load-balancer/</guid>
       <description>metalLB场景和介绍 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公</description>
     </item>
     

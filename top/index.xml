@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tops on 北冥鱼 Blog</title>
-    <link>https://zhaohuabing.com/top/</link>
+    <link>https://zhuchance.github.io/top/</link>
     <description>Recent content in Tops on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://zhaohuabing.com/top/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhuchance.github.io/top/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>https://zhaohuabing.com/top/about/</link>
+      <link>https://zhuchance.github.io/top/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/top/about/</guid>
+      <guid>https://zhuchance.github.io/top/about/</guid>
       <description>Guoyi Zhu is an System Operation Engineer for open source. He has a solid experience in the middleware and information technology industry for more than 5 years.
 He loves open source, including kubernetes、docker、linux, etc.
 He also has strong interests in various tech stuff such as Artificial Intelligence, Storage, Smart Home.
@@ -25,10 +25,10 @@ He is happy with his current job, but also willing to take new challenges if the
     
     <item>
       <title></title>
-      <link>https://zhaohuabing.com/top/books/</link>
+      <link>https://zhuchance.github.io/top/books/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/top/books/</guid>
+      <guid>https://zhuchance.github.io/top/books/</guid>
       <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.coursera.org/lear</description>
     </item>
     
