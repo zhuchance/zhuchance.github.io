@@ -15,9 +15,9 @@
     
 
     
-    <meta name="title" content="metalLB 负载均衡" />
-    <meta property="og:title" content="metalLB 负载均衡" />
-    <meta property="twitter:title" content="metalLB 负载均衡" />
+    <meta name="title" content="上篇-MetalLB 裸金属负载均衡安装与使用" />
+    <meta property="og:title" content="上篇-MetalLB 裸金属负载均衡安装与使用" />
+    <meta property="twitter:title" content="上篇-MetalLB 裸金属负载均衡安装与使用" />
     
 
     
@@ -34,7 +34,7 @@
     <meta name="keyword"  content="北冥鱼, zhuchance, couchacne, 北冥鱼的网络日志, 北冥鱼的博客, Zhuchance Blog, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Python, Kubernetes, Go, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>metalLB 负载均衡-北冥鱼的博客 | zhuchance Blog</title>
+    <title>上篇-MetalLB 裸金属负载均衡安装与使用-北冥鱼的博客 | zhuchance Blog</title>
 
     <link rel="canonical" href="/post/2020-03-10-metallb-network-load-balancer/">
 
@@ -153,7 +153,7 @@
 
 <style type="text/css">
   header.intro-header {
-    background-image: url('https://img-blog.csdnimg.cn/20190106153342198.png0')
+    background-image: url('/img/home-bg-jeep.jpg')
   }
 </style>
 <header class="intro-header">
@@ -163,8 +163,8 @@
         <div class="post-heading">
           <div class="tags">
             
-            <a class="tag" href="/tags/tips" title="Tips">
-              Tips
+            <a class="tag" href="/tags/load-balancer" title="Load Balancer">
+              Load Balancer
             </a>
             
             <a class="tag" href="/tags/kubernetes" title="Kubernetes">
@@ -172,15 +172,15 @@
             </a>
             
           </div>
-          <h1>metalLB 负载均衡</h1>
-          <h2 class="subheading">metalLB</h2>
+          <h1>上篇-MetalLB 裸金属负载均衡安装与使用</h1>
+          <h2 class="subheading">MetalLB 安装与使用</h2>
           <span class="meta">
             Posted by
             
                  &#34;北冥鱼&#34;
             
             on
-            Tuesday, March 10, 2020
+            Tuesday, March 17, 2020
             
             
             
@@ -212,16 +212,139 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#metallb">metalLB</a></li>
+        <li></li>
       </ul>
     </li>
   </ul>
 </nav>
         
-        <h2 id="metallb">metalLB</h2>
-<h4 id="负载均衡">负载均衡</h4>
+        <h4 id="metallb场景和介绍">metalLB场景和介绍</h4>
 <p>用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公网的Load balance的nginx，
-为了让k8s集群和旧的swarm集群能同时提供服务。</p>
+为了让k8s集群和旧的swarm集群能同时提供服务。
+说一下场景：在实际工作需要中老旧的非容器环境需要和现有的kubernetes环境对接，但kubernetes并没有提供现成的LoadBalancer，常规模式下kubernetes提供的NodePort受限于端口分配效率、Ingress方式L4层不太方便
+查阅了资料找到MetalLB,通过它我们可以达到能像公有云那样接入LoadBalancer。</p>
+<h5 id="metallb两个核心">metalLB两个核心</h5>
+<ol>
+<li>内部地址分配：</li>
+</ol>
+<blockquote>
+<ul>
+<li>使用前需要配置LB(Load Balancer)类型SVC分配IP地址段</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li>外部地址广播</li>
+</ol>
+<blockquote>
+<ul>
+<li>Layer2模式使用ARP/NDP广播</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>使用BGP模式</li>
+</ul>
+</blockquote>
+<hr>
+<p><a href="https://ieevee.com/tech/2019/06/30/metallb.html#%E5%9C%B0%E5%9D%80%E5%88%86%E9%85%8D" title="ieevee.com">这段内容引用伊布大佬的</a></p>
+<h6 id="layer2-模式">Layer2 模式</h6>
+<p><em>Layer 2模式下，每个service会有集群中的一个node来负责。当服务客户端发起ARP解析的时候，对应的node会响应该ARP请求，之后，该service的流量都会指向该node（看上去该node上有多个地址）。</em>
+<em>Layer 2模式并不是真正的负载均衡，因为流量都会先经过1个node后，再通过kube-proxy转给多个end points。如果该node故障，MetalLB会迁移 IP到另一个node，并重新发送免费ARP告知客户端迁移。</em>
+<em>Layer 2模式更为通用，不需要用户有额外的设备；但由于Layer 2模式使用ARP/ND，地址池分配需要跟客户端在同一子网，地址分配略为繁琐。</em></p>
+<h6 id="bgp模式">BGP模式</h6>
+<p><em>BGP模式下，集群中所有node都会跟上联路由器建立BGP连接，并且会告知路由器应该如何转发service的流量，BGP模式是真正的LoadBalancer。</em></p>
+<hr>
+<h4 id="metallb部署">MetalLB部署</h4>
+<ol>
+<li>安装部署相对简单，yaml编排文件主要使用了2个组件</li>
+</ol>
+<ul>
+<li>metallb-system/controller，负责IP地址的分配，以及service和endpoint的监听的控制器</li>
+<li>metallb-system/speaker，会在每个节点启动守护进程容器，负责保证service地址可达，例如Layer 2模式下，speaker会负责ARP请求应答</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
+</code></pre></div><ol start="2">
+<li>配置</li>
+</ol>
+<blockquote>
+<p>Layer 2 Configuration</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-
+</span><span style="color:#f1fa8c">apiVersion: v1</span>
+<span style="color:#ff79c6">kind</span>: ConfigMap
+metadata:
+  <span style="color:#ff79c6">namespace</span>: metallb-system
+  <span style="color:#ff79c6">name</span>: config
+data:
+  <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">    address-pools:</span>
+    - <span style="color:#ff79c6">name</span>: default
+      <span style="color:#ff79c6">protocol</span>: layer2
+      addresses:
+      - <span style="color:#bd93f9">192.168.1.240-192.168.1.250</span>
+EOF
+</code></pre></div><blockquote>
+<p>BGP Configuration</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-
+</span><span style="color:#f1fa8c">apiVersion: v1</span>
+<span style="color:#ff79c6">kind</span>: ConfigMap
+metadata:
+  <span style="color:#ff79c6">namespace</span>: metallb-system
+  <span style="color:#ff79c6">name</span>: config
+data:
+  <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">    peers:</span>
+    - <span style="color:#ff79c6">peer-address</span>: <span style="color:#bd93f9">10.0.0.1</span>
+      <span style="color:#ff79c6">peer-asn</span>: <span style="color:#bd93f9">64501</span>
+      <span style="color:#ff79c6">my-asn</span>: <span style="color:#bd93f9">64500</span>
+    address-pools:
+    - <span style="color:#ff79c6">name</span>: default
+      <span style="color:#ff79c6">protocol</span>: bgp
+      addresses:
+      - <span style="color:#bd93f9">192.168.10.0</span>/<span style="color:#bd93f9">24</span>
+EOF
+</code></pre></div><h6 id="测试">测试</h6>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4">#创建一个nginx服务，指定服务暴露使用LoadBalancer</span>
+
+cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
+</span><span style="color:#f1fa8c">apiVersion: apps/v1beta2
+</span><span style="color:#f1fa8c">kind: Deployment
+</span><span style="color:#f1fa8c">metadata:
+</span><span style="color:#f1fa8c">  name: nginx
+</span><span style="color:#f1fa8c">spec:
+</span><span style="color:#f1fa8c">  selector:
+</span><span style="color:#f1fa8c">    matchLabels:
+</span><span style="color:#f1fa8c">      app: nginx
+</span><span style="color:#f1fa8c">  template:
+</span><span style="color:#f1fa8c">    metadata:
+</span><span style="color:#f1fa8c">      labels:
+</span><span style="color:#f1fa8c">        app: nginx
+</span><span style="color:#f1fa8c">    spec:
+</span><span style="color:#f1fa8c">      containers:
+</span><span style="color:#f1fa8c">      - name: nginx
+</span><span style="color:#f1fa8c">        image: nginx:1
+</span><span style="color:#f1fa8c">        ports:
+</span><span style="color:#f1fa8c">        - name: http
+</span><span style="color:#f1fa8c">          containerPort: 80
+</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c">---
+</span><span style="color:#f1fa8c">apiVersion: v1
+</span><span style="color:#f1fa8c">kind: Service
+</span><span style="color:#f1fa8c">metadata:
+</span><span style="color:#f1fa8c">  name: nginx
+</span><span style="color:#f1fa8c">spec:
+</span><span style="color:#f1fa8c">  ports:
+</span><span style="color:#f1fa8c">  - name: http
+</span><span style="color:#f1fa8c">    port: 80
+</span><span style="color:#f1fa8c">    protocol: TCP
+</span><span style="color:#f1fa8c">    targetPort: 80
+</span><span style="color:#f1fa8c">  selector:
+</span><span style="color:#f1fa8c">    app: nginx
+</span><span style="color:#f1fa8c">  type: LoadBalancer
+</span><span style="color:#f1fa8c">EOF</span>
+</code></pre></div><p>等服务起来直接访问EXTERNAL-IP就可以实现nginx欢迎界面</p>
+<p><strong>下篇将继续</strong></p>
 
 
         
@@ -269,12 +392,12 @@
         <hr>
         <ul class="pager">
           
-          
-          <li class="next">
-            <a href="/post/2020-03-12-deployment-jenkins-on-k8s-cluster/" data-toggle="tooltip" data-placement="top"
-              title="Deployment Jenkins on Kubernetes Cluster">Next
-              Post &rarr;</a>
+          <li class="previous">
+            <a href="/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/" data-toggle="tooltip" data-placement="top"
+              title="k8s使用NFS实现动态存储">&larr;
+              Previous Post</a>
           </li>
+          
           
         </ul>
 

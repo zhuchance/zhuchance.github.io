@@ -6,10 +6,19 @@
     <description>Recent content in Kubernetes on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhaohuabing.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>上篇-MetalLB 裸金属负载均衡安装与使用</title>
+      <link>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</link>
+      <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</guid>
+      <description>metalLB场景和介绍 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公</description>
+    </item>
     
     <item>
       <title>k8s使用NFS实现动态存储</title>
@@ -27,15 +36,6 @@
       
       <guid>https://zhaohuabing.com/post/2020-03-12-deployment-jenkins-on-k8s-cluster/</guid>
       <description>Jenkins Deployment Jenkins on Kubernetes Cluster deployment jenkins on k8s cluster The premise is that there is a load balancing 在k8s集群里面部署Jenkins，使用load balance暴露服务 ###jenkins-allinone.yaml ###PVC --- kind: PersistentVolumeClaim apiVersion: v1 metadata: name: jenkins-prd-lb-pvc namespace: kube-ops spec: storageClassName: &amp;#34;managed-nfs-storage&amp;#34;</description>
-    </item>
-    
-    <item>
-      <title>metalLB 负载均衡</title>
-      <link>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</link>
-      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhaohuabing.com/post/2020-03-10-metallb-network-load-balancer/</guid>
-      <description>metalLB 负载均衡 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除，这样方便对接公网的Load b</description>
     </item>
     
   </channel>
