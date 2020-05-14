@@ -6,10 +6,19 @@
     <description>Recent content on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang 实现 ssh批量执行命令</title>
+      <link>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
+      <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
+    </item>
     
     <item>
       <title>上篇-MetalLB 裸金属负载均衡安装与使用</title>
