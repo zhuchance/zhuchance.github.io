@@ -269,40 +269,40 @@
 <blockquote>
 <p>Layer 2 Configuration</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-
-</span><span style="color:#f1fa8c">apiVersion: v1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c"></span><span style="color:#f1fa8c">apiVersion: v1</span>
 <span style="color:#ff79c6">kind</span>: ConfigMap
 metadata:
   <span style="color:#ff79c6">namespace</span>: metallb-system
   <span style="color:#ff79c6">name</span>: config
 data:
   <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">    address-pools:</span>
+</span><span style="color:#f1fa8c">   </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">address-pools:</span>
     - <span style="color:#ff79c6">name</span>: default
       <span style="color:#ff79c6">protocol</span>: layer2
       addresses:
-      - <span style="color:#bd93f9">192.168.1.240-192.168.1.250</span>
+      - <span style="color:#bd93f9">192.168</span><span style="color:#bd93f9">.1</span><span style="color:#bd93f9">.240</span><span style="color:#bd93f9">-192.168</span><span style="color:#bd93f9">.1</span><span style="color:#bd93f9">.250</span>
 EOF
 </code></pre></div><blockquote>
 <p>BGP Configuration</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-
-</span><span style="color:#f1fa8c">apiVersion: v1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c"></span><span style="color:#f1fa8c">apiVersion: v1</span>
 <span style="color:#ff79c6">kind</span>: ConfigMap
 metadata:
   <span style="color:#ff79c6">namespace</span>: metallb-system
   <span style="color:#ff79c6">name</span>: config
 data:
   <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">    peers:</span>
-    - <span style="color:#ff79c6">peer-address</span>: <span style="color:#bd93f9">10.0.0.1</span>
+</span><span style="color:#f1fa8c">   </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">peers:</span>
+    - <span style="color:#ff79c6">peer-address</span>: <span style="color:#bd93f9">10.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span>
       <span style="color:#ff79c6">peer-asn</span>: <span style="color:#bd93f9">64501</span>
       <span style="color:#ff79c6">my-asn</span>: <span style="color:#bd93f9">64500</span>
     address-pools:
     - <span style="color:#ff79c6">name</span>: default
       <span style="color:#ff79c6">protocol</span>: bgp
       addresses:
-      - <span style="color:#bd93f9">192.168.10.0</span>/<span style="color:#bd93f9">24</span>
+      - <span style="color:#bd93f9">192.168</span><span style="color:#bd93f9">.10</span><span style="color:#bd93f9">.0</span>/<span style="color:#bd93f9">24</span>
 EOF
 </code></pre></div><h6 id="测试">测试</h6>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4">#创建一个nginx服务，指定服务暴露使用LoadBalancer</span>
@@ -449,7 +449,19 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
             
             
             
+            <a href="/tags/cloud" title="cloud">
+              cloud
+            </a>
             
+            
+            
+            
+            
+            
+            
+            <a href="/tags/k8s" title="k8s">
+              k8s
+            </a>
             
             
             

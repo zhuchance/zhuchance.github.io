@@ -6,10 +6,28 @@
     <description>Recent content on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>helm3 使用国内原安装Weave Scope</title>
+      <link>https://zhuchance.github.io/post/helm3%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%8E%9F%E5%AE%89%E8%A3%85weavescope/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/helm3%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%8E%9F%E5%AE%89%E8%A3%85weavescope/</guid>
+      <description>Weave Scope是Docker 和Kubernetes 可视化监控工具。 Scope 提供了至上而下的集群基础设施和应用的完整视图，用户可以轻松对分布式的容器化</description>
+    </item>
+    
+    <item>
+      <title>PrometheusOperator部署</title>
+      <link>https://zhuchance.github.io/post/prometheusoperator%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/prometheusoperator%E9%83%A8%E7%BD%B2/</guid>
+      <description>Prometheus-Operator官方提供的架构图： 可惜我自己用符号画出来变形了，这篇文章比较水，完全是凑流水账的，因为有些东西我现在还</description>
+    </item>
     
     <item>
       <title>golang 实现 ssh批量执行命令</title>
@@ -84,7 +102,7 @@ He is happy with his current job, but also willing to take new challenges if the
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://zhuchance.github.io/top/books/</guid>
-      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.coursera.org/lear</description>
+      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.</description>
     </item>
     
   </channel>

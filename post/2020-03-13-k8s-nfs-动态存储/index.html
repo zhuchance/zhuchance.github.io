@@ -467,7 +467,7 @@ metadata:
   <span style="color:#ff79c6">namespace</span>: test
 data:
   <span style="color:#ff79c6">my.conf</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">        [mysqld]</span>
+</span><span style="color:#f1fa8c">       </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">[mysqld]</span>
         default-time-zone=<span style="color:#f1fa8c">&#39;+8:00&#39;</span> 
         server-id=<span style="color:#bd93f9">1</span>
         log-bin=master.bin
@@ -521,7 +521,7 @@ spec:
            - sh
            - <span style="color:#f1fa8c">&#34;-c&#34;</span>
            - <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">             set -ex</span>
+</span><span style="color:#f1fa8c">            </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">set -ex</span>
              rm -rf /var/lib/mysql/lost+found
              cat &gt; /docker-entrypoint-initdb.d/mysql-test-mysql-initt.sql &lt;&lt;EOF
              create database test-mysql default character set utf8;
@@ -574,7 +574,7 @@ spec:
                - /bin/sh
                - <span style="color:#f1fa8c">&#34;-c&#34;</span>
                - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
-               - mysql -h <span style="color:#bd93f9">127.0.0.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+               - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
              <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">30</span>
              <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
              <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
@@ -585,7 +585,7 @@ spec:
                  - /bin/sh
                  - <span style="color:#f1fa8c">&#34;-c&#34;</span>
                  - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
-                 - mysql -h <span style="color:#bd93f9">127.0.0.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+                 - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
              <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">10</span>
              <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">1</span>
              <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
@@ -723,7 +723,19 @@ spec:
             
             
             
+            <a href="/tags/cloud" title="cloud">
+              cloud
+            </a>
             
+            
+            
+            
+            
+            
+            
+            <a href="/tags/k8s" title="k8s">
+              k8s
+            </a>
             
             
             

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="北冥鱼 Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://zhuchance.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://zhuchance.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="PrometheusOperator部署" />
+    <meta property="og:title" content="PrometheusOperator部署" />
+    <meta property="twitter:title" content="PrometheusOperator部署" />
+    
+
+    
+    <meta name="description" content="PrometheusOperator部署">
+    <meta property="og:description" content="PrometheusOperator部署" />
+    <meta property="twitter:description" content="PrometheusOperator部署" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="北冥鱼, zhuchance, couchacne, 北冥鱼的网络日志, 北冥鱼的博客, Zhuchance Blog, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Python, Kubernetes, Go, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>PrometheusOperator部署-北冥鱼的博客 | zhuchance Blog</title>
+
+    <link rel="canonical" href="/post/prometheusoperator%E9%83%A8%E7%BD%B2/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">北冥鱼 Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+  header.intro-header {
+    background-image: url('/img/home-bg-jeep.jpg')
+  }
+</style>
+<header class="intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/k8s" title="k8s">
+              k8s
+            </a>
+            
+            <a class="tag" href="/tags/cloud" title="cloud">
+              cloud
+            </a>
+            
+          </div>
+          <h1>PrometheusOperator部署</h1>
+          <h2 class="subheading">Prometheus</h2>
+          <span class="meta">
+            Posted by
+            
+                 &#34;北冥鱼&#34;
+            
+            on
+            Monday, June 1, 2020
+            
+            
+            
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+        
+        <header>
+          <h2>TOC</h2>
+        </header>
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        
+        <p><a href="https://www.qikqiak.com/img/posts/prometheus-operator.png">Prometheus-Operator官方提供的架构图：</a></p>
+<p>可惜我自己用符号画出来变形了，这篇文章比较水，完全是凑流水账的，因为有些东西我现在还搞不清楚，那就暂时记录下来哈。
++&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+
+|                                                                                                                        |
+|  +&mdash;&mdash;&mdash;+                                                                                                           |
+|  | Services1              +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+     |
+|  |        v&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|                                                                             |     |
+|  +&mdash;&mdash;&mdash;+              |  +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+                                                         |     |
+|                           |  |     |                   |                                                         |     |
+|  +&mdash;&mdash;&mdash;+              |  |     +ervi+eMonitor1  ^  |                                                         |     |
+|  |    Service2            |  |  +       |           |  |                   +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+      |     |
+|  |        v&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+                   |                              |      |     |
+|  +&mdash;&mdash;&mdash;+              |             |           +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+   Prometheus                 |      |     |
+|                           |             |                                  |                              |      |     |
+|  +&mdash;&mdash;&mdash;+              |             |                                  |       +                      |      |     |
+|  |     Ser^&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&ndash;+                   +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+      |     |
+|  |         |              |  |   ServicesMonitor2  ^&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+                             |     |
+|  +&mdash;&mdash;&mdash;+              |  |                         |                                                         |     |
+|                           |  |         +          +    |                                                         |     |
+|                           |  +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+                                                         |     |
+|  +&mdash;&mdash;&mdash;+              |            |          |                                                              |     |
+|  |  Se^&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-^&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+     |
+|  |         |                                      |        |                                                           |
+|  +&mdash;&mdash;&mdash;+                                      |        |                                                           |
+|                                                   |        |                                                           |
+|                                                   |        |                                                           |
+|  +&mdash;&mdash;&mdash;+                                      |        |                                                           |
+|  |     Service5                                   |        |                                                           |
+|  |     v&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+       watch                                                        |
+|  +&mdash;&mdash;&mdash;+                                               |                                                           |
+|                                                            |                                                           |
+|                                                            |                                                           |
+|                                                            |                                                           |
+|                                                            |                                                           |
+|                                                            |                                                           |
+|                                    +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&ndash;+ deploy+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+    |
+|                                    |                             | &amp;manage                                        |    |
+|                                    |    Operator                 |       |                                        |    |
+|                                    |                             +&mdash;&mdash;-&gt; Prometheus Server                      |    |
+|                                    |                             |       |                                        |    |
+|                                    +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+       +&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+    |
+|                                                                                                                        |
+|                                                                                                                        |
++&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</p>
+<p>Operator是最核心的部分，作为一个控制器，他会去创建Prometheus、PodMonitor、ServiceMonitor、AlertManager以及PrometheusRule这5个CRD资源对象，然后会一直监控并维持这5个资源对象的状态。</p>
+<p>其中创建的Prometheus这种资源对象就是作为Prometheus Server存在，而PodMonitor和ServiceMonitor就是exporter的各种抽象，是用来提供专门提供metrics数据接口的工具，Prometheus就是通过PodMonitor和ServiceMonitor提供的metrics数据接口去pull数据的，当然alertmanager这种资源对象就是对应的AlertManager的抽象，而PrometheusRule是用来被Prometheus实例使用的报警规则文件。</p>
+<p>这样我们要在集群中监控什么数据，就变成了直接去操作 Kubernetes 集群的资源对象了，是不是方便很多了。上图中的 Service 和 ServiceMonitor 都是 Kubernetes 的资源，一个 ServiceMonitor 可以通过 labelSelector 的方式去匹配一类 Service，Prometheus 也可以通过 labelSelector 去匹配多个ServiceMonitor。</p>
+<h6 id="安装">安装</h6>
+<p>下载https://github.com/coreos/kube-prometheus，最好下载最新的Release版本。
+本文下载https://github.com/coreos/kube-prometheus/archive/v0.3.0.tar.gz。</p>
+<p><strong>版本对应关系如下：</strong></p>
+<p>The following versions are supported and work as we test against these versions in their respective branches. But note that other versions might work!</p>
+<table>
+<thead>
+<tr>
+<th>kube-prometheus stack</th>
+<th>Kubernetes 1.14</th>
+<th>Kubernetes 1.15</th>
+<th>Kubernetes 1.16</th>
+<th>Kubernetes 1.17</th>
+<th>Kubernetes 1.18</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>release-0.3</code></td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✗</td>
+</tr>
+<tr>
+<td><code>release-0.4</code></td>
+<td>✗</td>
+<td>✗</td>
+<td>✔ (v1.16.5+)</td>
+<td>✔</td>
+<td>✗</td>
+</tr>
+<tr>
+<td><code>release-0.5</code></td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>HEAD</code></td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar zxvf kube-prometheus-0.3.0.tar.gz
+
+<span style="color:#8be9fd;font-style:italic">cd</span> kube-prometheus-0.3.0/manifests/setup/
+
+kubectl apply -f .
+namespace/monitoring created
+customresourcedefinition.apiextensions.k8s.io/alertmanagers.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/podmonitors.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheuses.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheusrules.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/servicemonitors.monitoring.coreos.com created
+clusterrole.rbac.authorization.k8s.io/prometheus-operator created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-operator created
+deployment.apps/prometheus-operator created
+service/prometheus-operator created
+serviceaccount/prometheus-operator created
+
+</code></pre></div><p>查看创建的CRDs。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd | grep coreos
+alertmanagers.monitoring.coreos.com    
+podmonitors.monitoring.coreos.com      
+prometheuses.monitoring.coreos.com     
+prometheusrules.monitoring.coreos.com  
+servicemonitors.monitoring.coreos.com  
+</code></pre></div><p>默认情况下，prometheus-serviceMonitorKubelet.yaml关联的kubelet的https-metrics（10250）端口拉取metrics数据，为了安全起见，kubelet关闭了匿名认证并开启了webhook授权，访问https-metrics端口需要认证和授权。http-metrics(10255)为只读端口，无须认证和授权。但默认情况下是不打开的，可以如下配置打开该端口。注意所有安装了kubelet服务的集群主机都需要配置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /var/lib/kubelet/config.yaml
+readOnlyPort: 10255
+
+systemctl restart kubelet
+
+</code></pre></div><p>然后将prometheus-serviceMonitorKubelet.yaml文件中的https-metrics更改成http-metrics即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8be9fd;font-style:italic">cd</span> ..
+vi prometheus-serviceMonitorKubelet.yaml
+    port: https-metrics
+    scheme: https
+<span style="color:#6272a4">#改为</span>
+    port: http-metrics
+    scheme: http
+</code></pre></div><p>为了Kubernetes集群外访问prometheus、grafana和alertmanager，可以配置NodePort或者Ingress，此处简单起见，直接修改为NodePort。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi prometheus-service.yaml
+  type: NodePort
+    nodePort: 39090
+
+vi grafana-service.yaml
+  type: NodePort
+    nodePort: 33000
+
+vi alertmanager-service.yaml
+  type: NodePort
+    nodePort: 39093
+</code></pre></div><p>prometheus-serviceMonitorKubeScheduler.yaml定义了监控kube-scheduler的ServiceMonitor。serviceMonitorKubeScheduler通过k8s-app=kube-scheduler和kube-scheduler服务关联，但Kubernetes缺省没有创建该service。可以先看一下对应的kube-scheduler-k8s-master这个pod，然后直接在manifests目录下定义kube-scheduler服务，下面统一部署。10251是kube-scheduler服务metrics数据所在的端口。</p>
+<p>kube-scheduler：调度器主要负责为新创建的pod在集群中寻找最合适的node，并将pod调度到Node上。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get pod kube-scheduler-k8s-master -nkube-system --show-labels
+NAME                        READY   STATUS    RESTARTS   AGE    LABELS
+kube-scheduler-k8s-master   1/1     Running   <span style="color:#bd93f9">4</span>          103d   <span style="color:#8be9fd;font-style:italic">component</span><span style="color:#ff79c6">=</span>kube-scheduler,tier<span style="color:#ff79c6">=</span>control-plane
+
+vi prometheus-kubeSchedulerService.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kube-system
+  name: kube-scheduler
+  labels:
+    k8s-app: kube-scheduler
+spec:
+  selector:
+    component: kube-scheduler
+  ports:
+  - name: http-metrics
+    port: 10251
+    targetPort: 10251
+    protocol: TCP
+</code></pre></div><p>同样，prometheus-serviceMonitorKubeControllerManager.yaml定义了监控kube-controller-manager的ServiceMonitor。serviceMonitorKubeControllerManager通过k8s-app: kube-controller-manager和kube-controller-manager服务关联，但Kubernetes缺省没有创建该service。可以先看一下对应的kube-controller-manager-k8s-master这个pod，然后直接在manifests目录下定义kube-controller-manager服务。10252是kube-controller-manager服务metrics数据所在的端口。</p>
+<p>kube-controller-manager：管理控制中心负责集群内的Node、Pod副本、服务端点（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）的管理，当某个Node意外宕机时，Controller Manager会及时发现并执行自动化修复流程，确保集群始终处于预期的工作状态。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get pod kube-controller-manager-k8s-master -nkube-system --show-labels
+NAME                                 READY   STATUS    RESTARTS   AGE    LABELS
+kube-controller-manager-k8s-master   1/1     Running   <span style="color:#bd93f9">4</span>          103d   <span style="color:#8be9fd;font-style:italic">component</span><span style="color:#ff79c6">=</span>kube-controller-manager,tier<span style="color:#ff79c6">=</span>control-plane
+
+vi prometheus-kubeControllerManagerService.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kube-system
+  name: kube-controller-manager
+  labels:
+    k8s-app: kube-controller-manager
+spec:
+  selector:
+    component: kube-controller-manager
+  ports:
+  - name: http-metrics
+    port: 10252
+    targetPort: 10252
+    protocol: TCP
+</code></pre></div><p>继续安装。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f .
+alertmanager.monitoring.coreos.com/main created
+secret/alertmanager-main created
+service/alertmanager-main created
+serviceaccount/alertmanager-main created
+servicemonitor.monitoring.coreos.com/alertmanager created
+secret/grafana-datasources created
+configmap/grafana-dashboard-apiserver created
+configmap/grafana-dashboard-cluster-total created
+configmap/grafana-dashboard-controller-manager created
+configmap/grafana-dashboard-k8s-resources-cluster created
+configmap/grafana-dashboard-k8s-resources-namespace created
+configmap/grafana-dashboard-k8s-resources-node created
+configmap/grafana-dashboard-k8s-resources-pod created
+configmap/grafana-dashboard-k8s-resources-workload created
+configmap/grafana-dashboard-k8s-resources-workloads-namespace created
+configmap/grafana-dashboard-kubelet created
+configmap/grafana-dashboard-namespace-by-pod created
+configmap/grafana-dashboard-namespace-by-workload created
+configmap/grafana-dashboard-node-cluster-rsrc-use created
+configmap/grafana-dashboard-node-rsrc-use created
+configmap/grafana-dashboard-nodes created
+configmap/grafana-dashboard-persistentvolumesusage created
+configmap/grafana-dashboard-pod-total created
+configmap/grafana-dashboard-pods created
+configmap/grafana-dashboard-prometheus-remote-write created
+configmap/grafana-dashboard-prometheus created
+configmap/grafana-dashboard-proxy created
+configmap/grafana-dashboard-scheduler created
+configmap/grafana-dashboard-statefulset created
+configmap/grafana-dashboard-workload-total created
+configmap/grafana-dashboards created
+deployment.apps/grafana created
+service/grafana created
+serviceaccount/grafana created
+servicemonitor.monitoring.coreos.com/grafana created
+clusterrole.rbac.authorization.k8s.io/kube-state-metrics created
+clusterrolebinding.rbac.authorization.k8s.io/kube-state-metrics created
+deployment.apps/kube-state-metrics created
+role.rbac.authorization.k8s.io/kube-state-metrics created
+rolebinding.rbac.authorization.k8s.io/kube-state-metrics created
+service/kube-state-metrics created
+serviceaccount/kube-state-metrics created
+servicemonitor.monitoring.coreos.com/kube-state-metrics created
+clusterrole.rbac.authorization.k8s.io/node-exporter created
+clusterrolebinding.rbac.authorization.k8s.io/node-exporter created
+daemonset.apps/node-exporter created
+service/node-exporter created
+serviceaccount/node-exporter created
+servicemonitor.monitoring.coreos.com/node-exporter created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+clusterrole.rbac.authorization.k8s.io/prometheus-adapter created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-adapter created
+clusterrolebinding.rbac.authorization.k8s.io/resource-metrics:system:auth-delegator created
+clusterrole.rbac.authorization.k8s.io/resource-metrics-server-resources created
+configmap/adapter-config created
+deployment.apps/prometheus-adapter created
+rolebinding.rbac.authorization.k8s.io/resource-metrics-auth-reader created
+service/prometheus-adapter created
+serviceaccount/prometheus-adapter created
+clusterrole.rbac.authorization.k8s.io/prometheus-k8s created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+servicemonitor.monitoring.coreos.com/prometheus-operator created
+prometheus.monitoring.coreos.com/k8s created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s-config created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s-config created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+prometheusrule.monitoring.coreos.com/prometheus-k8s-rules created
+service/prometheus-k8s created
+serviceaccount/prometheus-k8s created
+servicemonitor.monitoring.coreos.com/prometheus created
+servicemonitor.monitoring.coreos.com/kube-apiserver created
+servicemonitor.monitoring.coreos.com/coredns created
+servicemonitor.monitoring.coreos.com/kube-controller-manager created
+servicemonitor.monitoring.coreos.com/kube-scheduler created
+servicemonitor.monitoring.coreos.com/kubelet created
+service/kube-controller-manager created
+service/kube-scheduler created
+</code></pre></div><p>查看Kubernetes资源，可以看出prometheus-k8s和alertmanager-main的控制器类型为statefulset，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get all -nmonitoring
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/alertmanager-main-0                   2/2     Running   <span style="color:#bd93f9">4</span>          12h
+pod/alertmanager-main-1                   2/2     Running   <span style="color:#bd93f9">0</span>          12h
+pod/alertmanager-main-2                   2/2     Running   <span style="color:#bd93f9">6</span>          12h
+pod/grafana-58dc7468d7-d8bmt              1/1     Running   <span style="color:#bd93f9">0</span>          12h
+pod/kube-state-metrics-78b46c84d8-wsvrb   3/3     Running   <span style="color:#bd93f9">0</span>          12h
+pod/node-exporter-6m4kd                   2/2     Running   <span style="color:#bd93f9">0</span>          12h
+pod/node-exporter-bhxw2                   2/2     Running   <span style="color:#bd93f9">6</span>          12h
+pod/node-exporter-tkvq5                   2/2     Running   <span style="color:#bd93f9">0</span>          12h
+pod/prometheus-adapter-5cd5798d96-5ffb5   1/1     Running   <span style="color:#bd93f9">0</span>          12h
+pod/prometheus-k8s-0                      3/3     Running   <span style="color:#bd93f9">10</span>         12h
+pod/prometheus-k8s-1                      3/3     Running   <span style="color:#bd93f9">1</span>          12h
+pod/prometheus-operator-99dccdc56-89l7n   1/1     Running   <span style="color:#bd93f9">0</span>          12h
+
+NAME                            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>                      AGE
+service/alertmanager-main       NodePort    10.1.96.0      &lt;none&gt;        9093:39093/TCP               12h
+service/alertmanager-operated   ClusterIP   None           &lt;none&gt;        9093/TCP,9094/TCP,9094/UDP   12h
+service/grafana                 NodePort    10.1.165.84    &lt;none&gt;        3000:33000/TCP               12h
+service/kube-state-metrics      ClusterIP   None           &lt;none&gt;        8443/TCP,9443/TCP            12h
+service/node-exporter           ClusterIP   None           &lt;none&gt;        9100/TCP                     12h
+service/prometheus-adapter      ClusterIP   10.1.114.161   &lt;none&gt;        443/TCP                      12h
+service/prometheus-k8s          NodePort    10.1.162.187   &lt;none&gt;        9090:39090/TCP               12h
+service/prometheus-operated     ClusterIP   None           &lt;none&gt;        9090/TCP                     12h
+service/prometheus-operator     ClusterIP   None           &lt;none&gt;        8080/TCP                     12h
+
+NAME                           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/node-exporter   <span style="color:#bd93f9">3</span>         <span style="color:#bd93f9">3</span>         <span style="color:#bd93f9">3</span>       <span style="color:#bd93f9">3</span>            <span style="color:#bd93f9">3</span>           kubernetes.io/os<span style="color:#ff79c6">=</span>linux   12h
+
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/grafana               1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           12h
+deployment.apps/kube-state-metrics    1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           12h
+deployment.apps/prometheus-adapter    1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           12h
+deployment.apps/prometheus-operator   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           12h
+
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/grafana-58dc7468d7              <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       12h
+replicaset.apps/kube-state-metrics-78b46c84d8   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       12h
+replicaset.apps/prometheus-adapter-5cd5798d96   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       12h
+replicaset.apps/prometheus-operator-99dccdc56   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       12h
+
+NAME                                 READY   AGE
+statefulset.apps/alertmanager-main   3/3     12h
+statefulset.apps/prometheus-k8s      2/2     12h
+</code></pre></div><p>访问Prometheus
+地址：http://192.168.1.55:39090/。</p>
+<p>查看Prometheus的targets页面，可以看到所有的targets都可以正常监控。</p>
+<p>查看Prometheus的alerts页面，可以看到预置了多个告警规则。</p>
+<p>访问Grafana
+地址：http://192.168.1.55:33000/。</p>
+<p>Grafana缺省内置了多个dashboard。</p>
+<p>以下为和Node相关的Dashboard，可以看到自动添加了prometheus数据源，可以查看不同Node的监控数据。</p>
+<p>以下为和Pod相关的Dashboard，可以查看不同命名空间和Pod的监控数据。</p>
+<p>访问Alertmanager
+地址：http://192.168.1.55:39093/。</p>
+<p>应用自定义监控-PodMonitor
+我们以Nginx Ingress为例,使用Prometheus Operator来监控Nginx Ingress。我们先通过Helm部署，选择nginx/nginx-ingress。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add nginx https://helm.nginx.com/stable
+helm search repo nginx
+NAME                                    CHART VERSION   APP VERSION     DESCRIPTION
+bitnami/nginx                           5.1.1           1.16.1          Chart <span style="color:#ff79c6">for</span> the nginx server
+bitnami/nginx-ingress-controller        5.2.2           0.26.2          Chart <span style="color:#ff79c6">for</span> the nginx Ingress controller
+nginx/nginx-ingress                     0.4.3           1.6.3           NGINX Ingress Controller
+stable/nginx-ingress                    1.27.0          0.26.1          An nginx Ingress controller that uses ConfigMap...
+stable/nginx-ldapauth-proxy             0.1.3           1.13.5          nginx proxy with ldapauth
+stable/nginx-lego                       0.3.1                           Chart <span style="color:#ff79c6">for</span> nginx-ingress-controller and kube-lego
+stable/gcloud-endpoints                 0.1.2           <span style="color:#bd93f9">1</span>               DEPRECATED Develop, deploy, protect and monitor...
+</code></pre></div><p>先渲染模板来分析一下，为了集群外访问，“type: LoadBalancer&quot;应该改为&quot;type: NodePort”，并将nodePort配置为固定端口。Pod公开了prometheus端口&quot;containerPort: 9113&rdquo;，我们下面先使用PodMonitor进行监控。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm template gateway nginx/nginx-ingress
+......
+<span style="color:#6272a4"># Source: nginx-ingress/templates/controller-service.yaml</span>
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-nginx-ingress
+  namespace: default
+  labels:
+    app.kubernetes.io/name: gateway-nginx-ingress
+    helm.sh/chart: nginx-ingress-0.4.3
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: gateway
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app:  gateway-nginx-ingress
+---
+<span style="color:#6272a4"># Source: nginx-ingress/templates/controller-deployment.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-nginx-ingress
+  namespace: default
+  labels:
+    app.kubernetes.io/name: gateway-nginx-ingress
+    helm.sh/chart: nginx-ingress-0.4.3
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: gateway-nginx-ingress
+      annotations:
+        prometheus.io/scrape: <span style="color:#f1fa8c">&#34;true&#34;</span>
+        prometheus.io/port: <span style="color:#f1fa8c">&#34;9113&#34;</span>
+    spec:
+      serviceAccountName: gateway-nginx-ingress
+      hostNetwork: <span style="color:#8be9fd;font-style:italic">false</span>
+      containers:
+      - image: <span style="color:#f1fa8c">&#34;nginx/nginx-ingress:1.6.3&#34;</span>
+        name: gateway-nginx-ingress
+        imagePullPolicy: <span style="color:#f1fa8c">&#34;IfNotPresent&#34;</span>
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        - name: prometheus
+          containerPort: 9113
+......
+</code></pre></div><p>根据上面的分析，设置以下覆盖参数来安装nginx-ingress。</p>
+<pre><code>helm install gateway nginx/nginx-ingress \
+  --set controller.service.type=NodePort \
+  --set controller.service.httpPort.nodePort=30080 \
+  --set controller.service.httpsPort.nodePort=30443
+</code></pre><p>查看Kubernetes资源。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">NAME                                         READY   STATUS    RESTARTS   AGE
+pod/gateway-nginx-ingress-55886df446-bwbts   1/1     Running   <span style="color:#bd93f9">0</span>          12m
+
+NAME                            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>                      AGE
+service/gateway-nginx-ingress   NodePort    10.1.10.126   &lt;none&gt;        80:30080/TCP,443:30443/TCP   12m
+service/kubernetes              ClusterIP   10.1.0.1      &lt;none&gt;        443/TCP                      108d
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/gateway-nginx-ingress   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           12m
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/gateway-nginx-ingress-55886df446   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       12m
+
+kubectl get pod -owide
+NAME                                     READY   STATUS    RESTARTS   AGE   IP            NODE        NOMINATED NODE   READINESS GATES
+gateway-nginx-ingress-55886df446-bwbts   1/1     Running   <span style="color:#bd93f9">0</span>          13m   10.244.2.46   k8s-node2   &lt;none&gt;           &lt;none&gt;
+</code></pre></div><p>可以直接从Pod地址访问metrics。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl http://10.244.2.46:9113/metrics
+<span style="color:#6272a4"># HELP nginx_ingress_controller_ingress_resources_total Number of handled ingress resources</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_ingress_resources_total gauge</span>
+nginx_ingress_controller_ingress_resources_total<span style="color:#ff79c6">{</span><span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;master&#34;</span><span style="color:#ff79c6">}</span> 0
+nginx_ingress_controller_ingress_resources_total<span style="color:#ff79c6">{</span><span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;minion&#34;</span><span style="color:#ff79c6">}</span> 0
+nginx_ingress_controller_ingress_resources_total<span style="color:#ff79c6">{</span><span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;regular&#34;</span><span style="color:#ff79c6">}</span> 0
+<span style="color:#6272a4"># HELP nginx_ingress_controller_nginx_last_reload_milliseconds Duration in milliseconds of the last NGINX reload</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_nginx_last_reload_milliseconds gauge</span>
+nginx_ingress_controller_nginx_last_reload_milliseconds 195
+<span style="color:#6272a4"># HELP nginx_ingress_controller_nginx_last_reload_status Status of the last NGINX reload</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_nginx_last_reload_status gauge</span>
+nginx_ingress_controller_nginx_last_reload_status 1
+<span style="color:#6272a4"># HELP nginx_ingress_controller_nginx_reload_errors_total Number of unsuccessful NGINX reloads</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_nginx_reload_errors_total counter</span>
+nginx_ingress_controller_nginx_reload_errors_total 0
+<span style="color:#6272a4"># HELP nginx_ingress_controller_nginx_reloads_total Number of successful NGINX reloads</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_nginx_reloads_total counter</span>
+nginx_ingress_controller_nginx_reloads_total 2
+<span style="color:#6272a4"># HELP nginx_ingress_controller_virtualserver_resources_total Number of handled VirtualServer resources</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_virtualserver_resources_total gauge</span>
+nginx_ingress_controller_virtualserver_resources_total 0
+<span style="color:#6272a4"># HELP nginx_ingress_controller_virtualserverroute_resources_total Number of handled VirtualServerRoute resources</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_controller_virtualserverroute_resources_total gauge</span>
+nginx_ingress_controller_virtualserverroute_resources_total 0
+<span style="color:#6272a4"># HELP nginx_ingress_nginx_connections_accepted Accepted client connections</span>
+<span style="color:#6272a4"># TYPE nginx_ingress_nginx_connections_accepted counter</span>
+nginx_ingress_nginx_connections_accepted 6
+
+</code></pre></div><p>我们创建PodMonitor，其中几个需要注意的关键点。</p>
+<p>PodMonitor的name最终会反应到Prometheus的配置中，作为job_name。
+PodMonitor的命名空间必须和Prometheus所在的命名空间相同，此处为monitoring。
+podMetricsEndpoints.interval为抓取间隔。
+podMetricsEndpoints.port需要和Pod/Deployment中的拉取metrics的ports.name对应，此处为prometheus。
+namespaceSelector.matchNames需要和被监控的Pod所在的命名空间相同，此处为default。
+selector.matchLabels的标签必须和被监控的Pod中能唯一标明身份的标签对应。
+创建Pod对应的PodMonitor。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi prometheus-podMonitorNginxIngress.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    app: nginx-ingress
+  name: nginx-ingress
+  namespace: monitoring
+spec:
+  podMetricsEndpoints:
+  - interval: 15s
+    path: /metrics
+    port: prometheus
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: gateway-nginx-ingress
+
+kubectl apply -f prometheus-podMonitorNginxIngress.yaml
+</code></pre></div><p>此PodMonitor其实就是一个配置文件，Prometheus Operator会根据PodMonitor进行Prometheus的相关配置，自动对该Pod进行监控。到Prometheus查看监控目标。注意label中有pod=&quot;gateway-nginx-ingress-55886df446-bwbts&rdquo;，标明监控Pod。</p>
+<p>Prometheus已经出现Nginx Ingress相关的配置job_name: monitoring/nginx-ingress/0。</p>
+<p>Prometheus监控指标irate(nginx_ingress_nginx_http_requests_total[1m])。</p>
+<p>应用自定义监控-ServiceMonitor
+我们仍旧以Nginx Ingress为例,我们先通过Helm部署。</p>
+<p>先重新渲染模板来分析一下，Pod公开了prometheus端口&quot;containerPort: 9113&rdquo;，但Service没有公开该端口。而ServiceMonitor恰恰是是通过Service的prometheus端口拉取metrics数据的，所以我们通过controller.service.customPorts来向Service添加该端口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm template gateway nginx/nginx-ingress <span style="color:#f1fa8c">\</span>
+  --set controller.service.type<span style="color:#ff79c6">=</span>NodePort <span style="color:#f1fa8c">\</span>
+  --set controller.service.httpPort.nodePort<span style="color:#ff79c6">=</span><span style="color:#bd93f9">30080</span> <span style="color:#f1fa8c">\</span>
+  --set controller.service.httpsPort.nodePort<span style="color:#ff79c6">=</span>30443
+......
+<span style="color:#6272a4"># Source: nginx-ingress/templates/controller-service.yaml</span>
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-nginx-ingress
+  namespace: default
+  labels:
+    app.kubernetes.io/name: gateway-nginx-ingress
+    helm.sh/chart: nginx-ingress-0.4.3
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: gateway
+spec:
+  externalTrafficPolicy: Local
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+    nodePort: 30080
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+    nodePort: 30443
+  selector:
+    app:  gateway-nginx-ingress
+---
+<span style="color:#6272a4"># Source: nginx-ingress/templates/controller-deployment.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-nginx-ingress
+  namespace: default
+  labels:
+    app.kubernetes.io/name: gateway-nginx-ingress
+    helm.sh/chart: nginx-ingress-0.4.3
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: gateway-nginx-ingress
+      annotations:
+        prometheus.io/scrape: <span style="color:#f1fa8c">&#34;true&#34;</span>
+        prometheus.io/port: <span style="color:#f1fa8c">&#34;9113&#34;</span>
+    spec:
+      serviceAccountName: gateway-nginx-ingress
+      hostNetwork: <span style="color:#8be9fd;font-style:italic">false</span>
+      containers:
+      - image: <span style="color:#f1fa8c">&#34;nginx/nginx-ingress:1.6.3&#34;</span>
+        name: gateway-nginx-ingress
+        imagePullPolicy: <span style="color:#f1fa8c">&#34;IfNotPresent&#34;</span>
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        - name: prometheus
+          containerPort: 9113
+</code></pre></div><p>根据上面的分析，设置以下覆盖参数来安装nginx-ingress。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm install gateway nginx/nginx-ingress <span style="color:#f1fa8c">\</span>
+  --set controller.service.type<span style="color:#ff79c6">=</span>NodePort <span style="color:#f1fa8c">\</span>
+  --set controller.service.httpPort.nodePort<span style="color:#ff79c6">=</span><span style="color:#bd93f9">30080</span> <span style="color:#f1fa8c">\</span>
+  --set controller.service.httpsPort.nodePort<span style="color:#ff79c6">=</span><span style="color:#bd93f9">30443</span> <span style="color:#f1fa8c">\</span>
+  --set controller.service.customPorts<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.port<span style="color:#ff79c6">=</span><span style="color:#bd93f9">9113</span> <span style="color:#f1fa8c">\</span>
+  --set controller.service.customPorts<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.targetPort<span style="color:#ff79c6">=</span><span style="color:#bd93f9">9113</span> <span style="color:#f1fa8c">\</span>
+  --set controller.service.customPorts<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.protocol<span style="color:#ff79c6">=</span>TCP <span style="color:#f1fa8c">\</span>
+  --set controller.service.customPorts<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name<span style="color:#ff79c6">=</span>prometheus <span style="color:#f1fa8c">\</span>
+  --set controller.service.customPorts<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.nodePort<span style="color:#ff79c6">=</span>39113
+</code></pre></div><p>查看Kubernetes资源，可以看出service/gateway-nginx-ingress暴露了9113端口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get all
+NAME                                         READY   STATUS    RESTARTS   AGE
+pod/gateway-nginx-ingress-55886df446-mwjs8   1/1     Running   <span style="color:#bd93f9">0</span>          10s
+
+NAME                            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>                                     AGE
+service/gateway-nginx-ingress   NodePort    10.1.98.109   &lt;none&gt;        9113:39113/TCP,80:30080/TCP,443:30443/TCP   10s
+service/kubernetes              ClusterIP   10.1.0.1      &lt;none&gt;        443/TCP                                     107d
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/gateway-nginx-ingress   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           10s
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/gateway-nginx-ingress-55886df446   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       10s
+</code></pre></div><p>查看Prometheus自定义资源，Prometheus根据serviceMonitorSelector关联ServiceMonitor，如果serviceMonitorSelector没有定义，那意味着会关联所有的ServiceMonitor。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get prometheuses.monitoring.coreos.com/k8s -nmonitoring -oyaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;apiVersion&#34;</span>:<span style="color:#f1fa8c">&#34;monitoring.coreos.com/v1&#34;</span>,<span style="color:#f1fa8c">&#34;kind&#34;</span>:<span style="color:#f1fa8c">&#34;Prometheus&#34;</span>,<span style="color:#f1fa8c">&#34;metadata&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;annotations&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;labels&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;prometheus&#34;</span>:<span style="color:#f1fa8c">&#34;k8s&#34;</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;name&#34;</span>:<span style="color:#f1fa8c">&#34;k8s&#34;</span>,<span style="color:#f1fa8c">&#34;namespace&#34;</span>:<span style="color:#f1fa8c">&#34;monitoring&#34;</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;spec&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;alerting&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;alertmanagers&#34;</span>:<span style="color:#ff79c6">[</span><span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;name&#34;</span>:<span style="color:#f1fa8c">&#34;alertmanager-main&#34;</span>,<span style="color:#f1fa8c">&#34;namespace&#34;</span>:<span style="color:#f1fa8c">&#34;monitoring&#34;</span>,<span style="color:#f1fa8c">&#34;port&#34;</span>:<span style="color:#f1fa8c">&#34;web&#34;</span><span style="color:#ff79c6">}</span><span style="color:#ff79c6">]</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;baseImage&#34;</span>:<span style="color:#f1fa8c">&#34;quay.io/prometheus/prometheus&#34;</span>,<span style="color:#f1fa8c">&#34;nodeSelector&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kubernetes.io/os&#34;</span>:<span style="color:#f1fa8c">&#34;linux&#34;</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;podMonitorSelector&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;replicas&#34;</span>:2,<span style="color:#f1fa8c">&#34;resources&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;requests&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;memory&#34;</span>:<span style="color:#f1fa8c">&#34;400Mi&#34;</span><span style="color:#ff79c6">}</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;ruleSelector&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;matchLabels&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;prometheus&#34;</span>:<span style="color:#f1fa8c">&#34;k8s&#34;</span>,<span style="color:#f1fa8c">&#34;role&#34;</span>:<span style="color:#f1fa8c">&#34;alert-rules&#34;</span><span style="color:#ff79c6">}</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;securityContext&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;fsGroup&#34;</span>:2000,<span style="color:#f1fa8c">&#34;runAsNonRoot&#34;</span>:true,<span style="color:#f1fa8c">&#34;runAsUser&#34;</span>:1000<span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;serviceAccountName&#34;</span>:<span style="color:#f1fa8c">&#34;prometheus-k8s&#34;</span>,<span style="color:#f1fa8c">&#34;serviceMonitorNamespaceSelector&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;serviceMonitorSelector&#34;</span>:<span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>,<span style="color:#f1fa8c">&#34;version&#34;</span>:<span style="color:#f1fa8c">&#34;v2.11.0&#34;</span><span style="color:#ff79c6">}</span><span style="color:#ff79c6">}</span>
+  creationTimestamp: <span style="color:#f1fa8c">&#34;2020-03-26T13:09:35Z&#34;</span>
+  generation: 1
+  labels:
+    prometheus: k8s
+  name: k8s
+  namespace: monitoring
+  resourceVersion: <span style="color:#f1fa8c">&#34;15195&#34;</span>
+  selfLink: /apis/monitoring.coreos.com/v1/namespaces/monitoring/prometheuses/k8s
+  uid: 802c8f09-95e8-43e8-a2ea-131877fc6b4e
+spec:
+  alerting:
+    alertmanagers:
+    - name: alertmanager-main
+      namespace: monitoring
+      port: web
+  baseImage: quay.io/prometheus/prometheus
+  nodeSelector:
+    kubernetes.io/os: linux
+  podMonitorSelector: <span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>
+  replicas: 2
+  resources:
+    requests:
+      memory: 400Mi
+  ruleSelector:
+    matchLabels:
+      prometheus: k8s
+      role: alert-rules
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: <span style="color:#8be9fd;font-style:italic">true</span>
+    runAsUser: 1000
+  serviceAccountName: prometheus-k8s
+  serviceMonitorNamespaceSelector: <span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>
+  serviceMonitorSelector: <span style="color:#ff79c6">{</span><span style="color:#ff79c6">}</span>
+  version: v2.11.0
+</code></pre></div><p>创建ServiceMonitor。其中几个需要注意的关键点。</p>
+<p>ServiceMonitor的name最终会反应到Prometheus的配置中，作为job_name。
+如果Prometheus自定义资源中定义了serviceMonitorSelector，ServiceMonitor就需要有对应的标签，由此上面的Prometheus自定义资源没有定义serviceMonitorSelector，所以此处没有要求。
+ServiceMonitor的命名空间必须和Prometheus所在的命名空间相同，此处为monitoring。
+endpoints.interval为抓取间隔。
+endpoints.port需要和Service中的拉取metrics的ports.name对应，此处为prometheus。
+namespaceSelector.matchNames需要和被监控的Service所在的命名空间相同，此处为default。
+selector.matchLabels的标签必须和被监控的Service中能唯一标明身份的标签对应。
+创建nginx-ingress服务对应的ServiceMonitor。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi prometheus-serviceMonitorNginxIngress.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: nginx-ingress
+  name: nginx-ingress
+  namespace: monitoring
+spec:
+  endpoints:
+  - interval: 15s
+    port: prometheus
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gateway-nginx-ingress
+
+kubectl apply -f prometheus-serviceMonitorNginxIngress.yaml
+</code></pre></div><p>此ServiceMonitor其实就是一个配置文件，Prometheus Operator会根据ServiceMonitor进行Prometheus的相关配置，自动对该服务进行监控。到Prometheus查看监控目标。注意此处有service=&quot;gateway-nginx-ingress&quot;标明是对服务的监控。</p>
+<p>Prometheus已经出现Nginx Ingress相关的配置job_name: monitoring/nginx-ingress/0。</p>
+<p>Prometheus监控指标irate(nginx_ingress_nginx_http_requests_total[1m])。</p>
+
+
+        
+        
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://zhuchance.github.io"><img src="/img/favicon.png" />北冥鱼 Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wx-pay.jpg"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+        
+
+        <hr>
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" data-toggle="tooltip" data-placement="top"
+              title="golang 实现 ssh批量执行命令">&larr;
+              Previous Post</a>
+          </li>
+          
+          
+          <li class="next">
+            <a href="/post/helm3%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%8E%9F%E5%AE%89%E8%A3%85weavescope/" data-toggle="tooltip" data-placement="top"
+              title="helm3 使用国内原安装Weave Scope">Next
+              Post &rarr;</a>
+          </li>
+          
+        </ul>
+
+        
+<div id="disqus-comment"></div>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "MTAyMC80OTE1MC8yNTY0NA==" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      </div>
+      
+      <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+        
+        
+        <section>
+          <hr class="hidden-sm hidden-xs">
+          <h5><a href="/tags/">FEATURED TAGS</a></h5>
+          <div class="tags">
+            
+            
+            
+            <a href="/tags/cloud" title="cloud">
+              cloud
+            </a>
+            
+            
+            
+            
+            
+            
+            
+            <a href="/tags/k8s" title="k8s">
+              k8s
+            </a>
+            
+            
+            
+            <a href="/tags/kubernetes" title="kubernetes">
+              kubernetes
+            </a>
+            
+            
+            
+            <a href="/tags/linux" title="linux">
+              linux
+            </a>
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </section>
+        
+
+        
+        
+        <section>
+          <hr>
+          <h5>FRIENDS</h5>
+          <ul class="list-inline">
+            
+            <li><a target="_blank" href="https://blog.csdn.net/zhuchance">我的CSDN博客</a></li>
+            
+          </ul>
+        </section>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="北冥鱼 Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:couchance@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wx-zhuchance.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/zhuchance">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/couking/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 北冥鱼 Blog 2020
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+<script>
+    
+    var _baId = '8649260b8c796fb4bf3c602e85a0542c';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'https:\/\/www.googletagmanager.com\/gtag\/js?id=UA-160345851-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>
