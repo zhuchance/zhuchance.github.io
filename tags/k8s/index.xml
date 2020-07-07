@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>k8s on 北冥鱼 Blog</title>
+    <title>K8s on 北冥鱼 Blog</title>
     <link>https://zhuchance.github.io/tags/k8s/</link>
-    <description>Recent content in k8s on 北冥鱼 Blog</description>
+    <description>Recent content in K8s on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在k8s上部署一个简单的mysql</title>
+      <link>https://zhuchance.github.io/post/simplemysqldb/</link>
+      <pubDate>Tue, 07 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/simplemysqldb/</guid>
+      <description>warning 注意MySQL单实例只用于测试环境 ##namespace --- #apiVersion: v1 #kind: Namespace #metadata: # name: pre ##mysql-claim.yaml --- apiVersion: v1 kind: PersistentVolumeClaim metadata: name: mysql-ex-claim namespace: pre-mysql annotations: volume.beta.kubernetes.io/storage-class: &amp;#34;managed-nfs-storage&amp;#34; spec: accessModes: - ReadWriteOnce resources: requests: storage: 800Gi ##mysql-cm.yaml --- apiVersion: v1 kind: ConfigMap metadata: name: mysql-config namespace: pre-mysql data: custom.cnf: | [mysqld] server-id=1 log-bin expire_logs_days=7 sync_binlog=0 binlog_cache_size=1M</description>
+    </item>
     
     <item>
       <title>rook-ceph-部署篇</title>

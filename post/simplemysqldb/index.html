@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="Deployment Jenkins on Kubernetes Cluster" />
-    <meta property="og:title" content="Deployment Jenkins on Kubernetes Cluster" />
-    <meta property="twitter:title" content="Deployment Jenkins on Kubernetes Cluster" />
+    <meta name="title" content="在k8s上部署一个简单的mysql" />
+    <meta property="og:title" content="在k8s上部署一个简单的mysql" />
+    <meta property="twitter:title" content="在k8s上部署一个简单的mysql" />
     
 
     
-    <meta name="description" content="通过部署的Jenkins更新Pod镜像">
-    <meta property="og:description" content="通过部署的Jenkins更新Pod镜像" />
-    <meta property="twitter:description" content="通过部署的Jenkins更新Pod镜像" />
+    <meta name="description" content="MySQL for Kubernetes">
+    <meta property="og:description" content="MySQL for Kubernetes" />
+    <meta property="twitter:description" content="MySQL for Kubernetes" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="北冥鱼, zhuchance, couchacne, 北冥鱼的网络日志, 北冥鱼的博客, Zhuchance Blog, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Python, Kubernetes, Go, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Deployment Jenkins on Kubernetes Cluster-北冥鱼的博客 | zhuchance Blog</title>
+    <title>在k8s上部署一个简单的mysql-北冥鱼的博客 | zhuchance Blog</title>
 
-    <link rel="canonical" href="/post/2020-03-12-deployment-jenkins-on-k8s-cluster/">
+    <link rel="canonical" href="/post/simplemysqldb/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -153,7 +153,7 @@
 
 <style type="text/css">
   header.intro-header {
-    background-image: url('/img/home-bg-jeep.jpg')
+    background-image: url('https://labs.mysql.com/common/logos/oracle-logo-red.svg')
   }
 </style>
 <header class="intro-header">
@@ -163,24 +163,24 @@
         <div class="post-heading">
           <div class="tags">
             
-            <a class="tag" href="/tags/kubernetes" title="Kubernetes">
-              Kubernetes
+            <a class="tag" href="/tags/k8s" title="K8s">
+              K8s
             </a>
             
-            <a class="tag" href="/tags/jenkins" title="Jenkins">
-              Jenkins
+            <a class="tag" href="/tags/mysql" title="MySQL">
+              MySQL
             </a>
             
           </div>
-          <h1>Deployment Jenkins on Kubernetes Cluster</h1>
-          <h2 class="subheading">在k8s集群里部署Jenkins</h2>
+          <h1>在k8s上部署一个简单的mysql</h1>
+          <h2 class="subheading">测试环境部署并使用一个单例mysql</h2>
           <span class="meta">
             Posted by
             
                  &#34;北冥鱼&#34;
             
             on
-            Thursday, March 12, 2020
+            Tuesday, July 7, 2020
             
             
             
@@ -212,149 +212,194 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#jenkins">Jenkins</a></li>
-        <li><a href="#heading"></a></li>
+        <li></li>
       </ul>
     </li>
   </ul>
 </nav>
         
-        <h2 id="jenkins">Jenkins</h2>
-<h3 id="deployment-jenkins-on-kubernetes-cluster">Deployment Jenkins on Kubernetes Cluster</h3>
-<ol>
-<li>
-<p>deployment jenkins on k8s cluster
-The premise is that there is a load balancing</p>
-<p>在k8s集群里面部署Jenkins，使用load balance暴露服务</p>
-</li>
-</ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">###jenkins-allinone.yaml</span>
-<span style="color:#6272a4">###PVC</span>
+        <h3 id="warning-注意mysql单实例只用于测试环境">warning 注意MySQL单实例只用于测试环境</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">##namespace</span>
 ---
-<span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
+<span style="color:#6272a4">#apiVersion: v1</span>
+<span style="color:#6272a4">#kind: Namespace</span>
+<span style="color:#6272a4">#metadata:</span>
+<span style="color:#6272a4">#  name: pre</span>
+<span style="color:#6272a4">##mysql-claim.yaml</span>
+---
 <span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
 metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb-pvc
-  <span style="color:#ff79c6">namespace</span>: kube-ops
+  <span style="color:#ff79c6">name</span>: mysql-ex-claim
+  <span style="color:#ff79c6">namespace</span>: pre-mysql
+  annotations:
+    <span style="color:#ff79c6">volume.beta.kubernetes.io/storage-class</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span> 
 spec:
-  <span style="color:#ff79c6">storageClassName</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span>
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      <span style="color:#ff79c6">storage</span>: 260Gi
+      <span style="color:#ff79c6">storage</span>: 800Gi
 
-<span style="color:#6272a4">###deplayment</span>
+<span style="color:#6272a4">##mysql-cm.yaml </span>
 ---
-<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: ConfigMap
+metadata:
+  <span style="color:#ff79c6">name</span>: mysql-config
+  <span style="color:#ff79c6">namespace</span>: pre-mysql
+data:
+  <span style="color:#ff79c6">custom.cnf</span>: <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">       </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">[mysqld]</span>
+        server-id=<span style="color:#bd93f9">1</span>
+        log-bin
+        expire_logs_days=<span style="color:#bd93f9">7</span>
+        sync_binlog=<span style="color:#bd93f9">0</span>
+        binlog_cache_size=1M
+
+<span style="color:#6272a4">##mysql-secret.yaml</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Secret
+metadata:
+  <span style="color:#ff79c6">name</span>: mysql-user-pwd
+  <span style="color:#ff79c6">namespace</span>: pre-mysql
+data:
+  <span style="color:#6272a4">#mysql-root-pwd: NXN0YXI=/5star/ZGVtbw==/demo</span>
+  <span style="color:#ff79c6">mysql-root-pwd</span>: NXN0YXI=
+  <span style="color:#6272a4">#mysql-app-user-pwd: NXN0YXI=</span>
+  <span style="color:#ff79c6">mysql-app-user-pwd</span>: NXN0YXI=
+  <span style="color:#6272a4">#mysql-test-user-pwd: NXN0YXI= </span>
+  <span style="color:#ff79c6">mysql-test-user-pwd</span>: NXN0YXI=
+<span style="color:#6272a4">##mysql-deployment.yaml</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: apps/v1
 <span style="color:#ff79c6">kind</span>: Deployment
 metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">namespace</span>: kube-ops
+  <span style="color:#ff79c6">namespace</span>: pre-mysql
+  labels:
+    <span style="color:#ff79c6">app</span>: mysql-ex
+  <span style="color:#ff79c6">name</span>: mysql-ex
 spec:
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+  selector:
+    matchLabels:
+      <span style="color:#ff79c6">app</span>: mysql-ex
   template:
-    metadata:
-      labels:
-        <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-    spec:
-      <span style="color:#ff79c6">terminationGracePeriodSeconds</span>: <span style="color:#bd93f9">10</span>
-      <span style="color:#6272a4">###serviceAccountName: jenkins2</span>
-      containers:
-        - <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-          <span style="color:#ff79c6">image</span>: jenkins/jenkins:lts
-          <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
-          ports:
-            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">8080</span>
-              <span style="color:#ff79c6">name</span>: web
-              <span style="color:#ff79c6">protocol</span>: TCP
-            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">50000</span>
-              <span style="color:#ff79c6">name</span>: agent
-              <span style="color:#ff79c6">protocol</span>: TCP
-          resources:
-            limits:
-              <span style="color:#ff79c6">cpu</span>: 2000m
-              <span style="color:#ff79c6">memory</span>: 4Gi
-            requests:
-              <span style="color:#ff79c6">cpu</span>: 1000m
-              <span style="color:#ff79c6">memory</span>: 2Gi
-          livenessProbe:
-            httpGet:
-              <span style="color:#ff79c6">path</span>: /login
-              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
-            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
-            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          readinessProbe:
-            httpGet:
-              <span style="color:#ff79c6">path</span>: /login
-              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
-            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
-            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          volumeMounts:
-            - <span style="color:#ff79c6">name</span>: jenkinshome
-              <span style="color:#ff79c6">subPath</span>: jenkins-prd-lb
-              <span style="color:#ff79c6">mountPath</span>: /var/jenkins_home
-          env:
-            - <span style="color:#ff79c6">name</span>: LIMITS_MEMORY
-              valueFrom:
-                resourceFieldRef:
-                  <span style="color:#ff79c6">resource</span>: limits.memory
-                  <span style="color:#ff79c6">divisor</span>: 1Mi
-            - <span style="color:#ff79c6">name</span>: JAVA_OPTS
-              <span style="color:#ff79c6">value</span>: -Xmx$(LIMITS_MEMORY)m -XshowSettings:vm -Dhudson.slaves.NodeProvisioner.initialDelay=<span style="color:#bd93f9">0</span> -Dhudson.slaves.NodeProvisioner.MARGIN=<span style="color:#bd93f9">50</span> -Dhudson.slaves.NodeProvisioner.MARGIN0=<span style="color:#bd93f9">0.85</span> -Duser.timezone=Asia/Shanghai
-      securityContext:
-        <span style="color:#ff79c6">fsGroup</span>: <span style="color:#bd93f9">1000</span>
-      volumes:
-        - <span style="color:#ff79c6">name</span>: jenkinshome
-          persistentVolumeClaim:
-            <span style="color:#ff79c6">claimName</span>: jenkins-prd-lb-pvc
-<span style="color:#6272a4">###svc</span>
+     metadata:
+       labels:
+         <span style="color:#ff79c6">app</span>: mysql-ex
+     spec:
+       initContainers:
+       - <span style="color:#ff79c6">name</span>: mysql-init
+         <span style="color:#ff79c6">image</span>: busybox
+         <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+         env:
+         - <span style="color:#ff79c6">name</span>: MYSQL_TEST_USER_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               <span style="color:#ff79c6">name</span>: mysql-user-pwd
+               <span style="color:#ff79c6">key</span>: mysql-test-user-pwd
+         command:
+           - sh
+           - <span style="color:#f1fa8c">&#34;-c&#34;</span>
+           - <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">            </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">set -ex</span>
+             rm -rf /var/lib/mysql/lost+found
+             cat &gt; /docker-entrypoint-initdb.d/mysql-pre-initt.sql &lt;&lt;EOF
+             create database mysqlpre default character set utf8;
+             grant all on mysqlpre.* to <span style="color:#f1fa8c">&#39;test&#39;</span>@<span style="color:#f1fa8c">&#39;%&#39;</span> identified by <span style="color:#f1fa8c">&#39;$MYSQL_TEST_USER_PASSWORD&#39;</span>;
+             flush privileges;
+             EOF
+             cat &gt; /docker-entrypoint-initdb.d/mysql-appdb-init.sql &lt;&lt;EOF
+             create table app(id int);
+             insert into app values(<span style="color:#bd93f9">1</span>);
+             commit;
+             EOF
+         volumeMounts:
+         - <span style="color:#ff79c6">name</span>: mysql-data
+           <span style="color:#ff79c6">mountPath</span>: /var/lib/mysql
+         - <span style="color:#ff79c6">name</span>: mysql-initdb
+           <span style="color:#ff79c6">mountPath</span>: /docker-entrypoint-initdb.d
+       containers:
+       <span style="color:#6272a4">#这边可以更改image: mysql:5.7</span>
+         - <span style="color:#ff79c6">image</span>: mysql:<span style="color:#bd93f9">5.7</span>
+           <span style="color:#ff79c6">name</span>: mysql
+           <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+           env:
+           - <span style="color:#ff79c6">name</span>: MYSQL_ROOT_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 <span style="color:#ff79c6">name</span>: mysql-user-pwd
+                 <span style="color:#ff79c6">key</span>: mysql-root-pwd
+           - <span style="color:#ff79c6">name</span>: MYSQL_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 <span style="color:#ff79c6">name</span>: mysql-user-pwd
+                 <span style="color:#ff79c6">key</span>: mysql-app-user-pwd
+           - <span style="color:#ff79c6">name</span>: MYSQL_USER
+             <span style="color:#ff79c6">value</span>: app
+           - <span style="color:#ff79c6">name</span>: MYSQL_DATABASE
+             <span style="color:#ff79c6">value</span>: appdb
+           volumeMounts:
+           - <span style="color:#ff79c6">name</span>: mysql-data
+             <span style="color:#ff79c6">mountPath</span>: /var/lib/mysql
+           - <span style="color:#ff79c6">name</span>: mysql-initdb
+             <span style="color:#ff79c6">mountPath</span>: /docker-entrypoint-initdb.d
+           - <span style="color:#ff79c6">name</span>: mysql-config
+             <span style="color:#ff79c6">mountPath</span>: /etc/mysql/conf.d/
+           ports:
+           - <span style="color:#ff79c6">name</span>: mysql
+             <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">3306</span>
+           livenessProbe:
+             exec:
+               command:
+               - /bin/sh
+               - <span style="color:#f1fa8c">&#34;-c&#34;</span>
+               - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
+               - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+             <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">30</span>
+             <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
+             <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
+             <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">3</span>
+           readinessProbe:
+             exec:
+               command:
+                 - /bin/sh
+                 - <span style="color:#f1fa8c">&#34;-c&#34;</span>
+                 - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
+                 - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+             <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">10</span>
+             <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">1</span>
+             <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
+             <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">3</span>
+       volumes:
+         - <span style="color:#ff79c6">name</span>: mysql-data
+           persistentVolumeClaim:
+             <span style="color:#ff79c6">claimName</span>: mysql-ex-claim
+         - <span style="color:#ff79c6">name</span>: mysql-initdb
+           <span style="color:#ff79c6">emptyDir</span>: {}
+         - <span style="color:#ff79c6">name</span>: mysql-config
+           configMap:
+             <span style="color:#ff79c6">name</span>: mysql-config
+<span style="color:#6272a4">##services</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: Service
 metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">namespace</span>: kube-ops
-  labels:
-    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
+  <span style="color:#6272a4">#name: mysql-ex</span>
+  <span style="color:#ff79c6">name</span>: invoice-application-db
+  <span style="color:#ff79c6">namespace</span>: pre-mysql
 spec:
   selector:
-    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">type</span>: LoadBalancer
+    <span style="color:#ff79c6">app</span>: mysql-ex
   ports:
-    - <span style="color:#ff79c6">name</span>: web
-      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-      <span style="color:#ff79c6">targetPort</span>: web
-    - <span style="color:#ff79c6">name</span>: agent
-      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">50000</span>
-      <span style="color:#ff79c6">targetPort</span>: agent
-
-<span style="color:#6272a4">### ingress</span>
-<span style="color:#6272a4">#---</span>
-<span style="color:#6272a4">#apiVersion: extensions/v1beta1</span>
-<span style="color:#6272a4">#kind: Ingress</span>
-<span style="color:#6272a4">#metadata:</span>
-<span style="color:#6272a4">#  name: jenkins-prd</span>
-<span style="color:#6272a4">#  namespace: kube-ops</span>
-<span style="color:#6272a4">#  labels:</span>
-<span style="color:#6272a4">#    app: jenkins-prd</span>
-<span style="color:#6272a4">#spec:</span>
-<span style="color:#6272a4">#  rules:</span>
-<span style="color:#6272a4">#    - host: devops-pro.efivestar.com</span>
-<span style="color:#6272a4">#      http:</span>
-<span style="color:#6272a4">#        paths:</span>
-<span style="color:#6272a4">#          - path: /</span>
-<span style="color:#6272a4">#            backend:</span>
-<span style="color:#6272a4">#              serviceName: jenkins-prd</span>
-<span style="color:#6272a4">#              servicePort: 8080</span>
-
-</code></pre></div><p>2.config jenkins in jenkins dashboard</p>
-<h2 id="heading"></h2>
-<p>配置好jenkins的kubectl的环境变量</p>
-<p>Add  shell script on Jenkins Project</p>
-<p>在jenkins项目里面添加构建后执行的shell脚本</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/var/jenkins_home/kubectl -n pre <span style="color:#8be9fd;font-style:italic">set</span> image deployment/nginx <span style="color:#8be9fd;font-style:italic">nginx</span><span style="color:#ff79c6">=</span>wordpress
+  - <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">3306</span>
+    <span style="color:#6272a4"># nodePort: 33016</span>
+    <span style="color:#ff79c6">protocol</span>: TCP
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">3306</span>
+    <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">3306</span>
+  <span style="color:#ff79c6">type</span>: NodePort
 
 </code></pre></div>
 
@@ -403,12 +448,12 @@ spec:
         <hr>
         <ul class="pager">
           
-          
-          <li class="next">
-            <a href="/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/" data-toggle="tooltip" data-placement="top"
-              title="Team双网卡绑定">Next
-              Post &rarr;</a>
+          <li class="previous">
+            <a href="/post/rook-ceph/" data-toggle="tooltip" data-placement="top"
+              title="rook-ceph-部署篇">&larr;
+              Previous Post</a>
           </li>
+          
           
         </ul>
 

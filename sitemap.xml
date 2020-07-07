@@ -4,21 +4,46 @@
   
   <url>
     <loc>https://zhuchance.github.io/categories/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://zhuchance.github.io/tags/ceph/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/tags/k8s/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/tags/mysql/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/post/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/tags/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/categories/tech/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/post/simplemysqldb/</loc>
+    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/tags/ceph/</loc>
     <lastmod>2020-06-28T00:00:00+00:00</lastmod>
   </url>
   
@@ -29,21 +54,6 @@
   
   <url>
     <loc>https://zhuchance.github.io/tags/storage/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://zhuchance.github.io/tags/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://zhuchance.github.io/categories/tech/</loc>
-    <lastmod>2020-06-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://zhuchance.github.io/</loc>
     <lastmod>2020-06-28T00:00:00+00:00</lastmod>
   </url>
   
