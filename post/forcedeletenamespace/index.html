@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="Deployment Jenkins on Kubernetes Cluster" />
-    <meta property="og:title" content="Deployment Jenkins on Kubernetes Cluster" />
-    <meta property="twitter:title" content="Deployment Jenkins on Kubernetes Cluster" />
+    <meta name="title" content="强制删除k8s上Terminating的Namespaces" />
+    <meta property="og:title" content="强制删除k8s上Terminating的Namespaces" />
+    <meta property="twitter:title" content="强制删除k8s上Terminating的Namespaces" />
     
 
     
-    <meta name="description" content="通过部署的Jenkins更新Pod镜像">
-    <meta property="og:description" content="通过部署的Jenkins更新Pod镜像" />
-    <meta property="twitter:description" content="通过部署的Jenkins更新Pod镜像" />
+    <meta name="description" content="Delete Kubernetes Terminating Namespaces">
+    <meta property="og:description" content="Delete Kubernetes Terminating Namespaces" />
+    <meta property="twitter:description" content="Delete Kubernetes Terminating Namespaces" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="北冥鱼, zhuchance, couchacne, 北冥鱼的网络日志, 北冥鱼的博客, Zhuchance Blog, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Python, Kubernetes, Go, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Deployment Jenkins on Kubernetes Cluster-北冥鱼的博客 | zhuchance Blog</title>
+    <title>强制删除k8s上Terminating的Namespaces-北冥鱼的博客 | zhuchance Blog</title>
 
-    <link rel="canonical" href="/post/2020-03-12-deployment-jenkins-on-k8s-cluster/">
+    <link rel="canonical" href="/post/forcedeletenamespace/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -153,7 +153,7 @@
 
 <style type="text/css">
   header.intro-header {
-    background-image: url('/img/home-bg-jeep.jpg')
+    background-image: url('https://kubernetes.io/images/nav_logo.svg')
   }
 </style>
 <header class="intro-header">
@@ -163,24 +163,28 @@
         <div class="post-heading">
           <div class="tags">
             
-            <a class="tag" href="/tags/kubernetes" title="Kubernetes">
-              Kubernetes
+            <a class="tag" href="/tags/k8s" title="K8s">
+              K8s
             </a>
             
-            <a class="tag" href="/tags/jenkins" title="Jenkins">
-              Jenkins
+            <a class="tag" href="/tags/shell" title="shell">
+              shell
+            </a>
+            
+            <a class="tag" href="/tags/memory" title="memory">
+              memory
             </a>
             
           </div>
-          <h1>Deployment Jenkins on Kubernetes Cluster</h1>
-          <h2 class="subheading">在k8s集群里部署Jenkins</h2>
+          <h1>强制删除k8s上Terminating的Namespaces</h1>
+          <h2 class="subheading">这是一篇没有技术含量的文档纯属记录归档k8s维护技巧</h2>
           <span class="meta">
             Posted by
             
                  &#34;北冥鱼&#34;
             
             on
-            Thursday, March 12, 2020
+            Wednesday, July 8, 2020
             
             
             
@@ -212,151 +216,58 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#jenkins">Jenkins</a></li>
-        <li><a href="#heading"></a></li>
+        <li></li>
       </ul>
     </li>
   </ul>
 </nav>
         
-        <h2 id="jenkins">Jenkins</h2>
-<h3 id="deployment-jenkins-on-kubernetes-cluster">Deployment Jenkins on Kubernetes Cluster</h3>
-<ol>
-<li>
-<p>deployment jenkins on k8s cluster
-The premise is that there is a load balancing</p>
-<p>在k8s集群里面部署Jenkins，使用load balance暴露服务</p>
-</li>
-</ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">###jenkins-allinone.yaml</span>
-<span style="color:#6272a4">###PVC</span>
----
-<span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
-<span style="color:#ff79c6">apiVersion</span>: v1
-metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb-pvc
-  <span style="color:#ff79c6">namespace</span>: kube-ops
-spec:
-  <span style="color:#ff79c6">storageClassName</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span>
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      <span style="color:#ff79c6">storage</span>: 260Gi
+        <p><a href="https://www.cnblogs.com/futuretea/p/11995725.html">转载来自</a></p>
+<h6 id="直接复制一个shell脚本吧">直接复制一个shell脚本吧</h6>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">#!/bin/bash
+</span><span style="color:#ff79c6"></span><span style="color:#8be9fd;font-style:italic">set</span> -e
 
-<span style="color:#6272a4">###deplayment</span>
----
-<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
-<span style="color:#ff79c6">kind</span>: Deployment
-metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">namespace</span>: kube-ops
-spec:
-  template:
-    metadata:
-      labels:
-        <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-    spec:
-      <span style="color:#ff79c6">terminationGracePeriodSeconds</span>: <span style="color:#bd93f9">10</span>
-      <span style="color:#6272a4">###serviceAccountName: jenkins2</span>
-      containers:
-        - <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-          <span style="color:#ff79c6">image</span>: jenkins/jenkins:lts
-          <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
-          ports:
-            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">8080</span>
-              <span style="color:#ff79c6">name</span>: web
-              <span style="color:#ff79c6">protocol</span>: TCP
-            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">50000</span>
-              <span style="color:#ff79c6">name</span>: agent
-              <span style="color:#ff79c6">protocol</span>: TCP
-          resources:
-            limits:
-              <span style="color:#ff79c6">cpu</span>: 2000m
-              <span style="color:#ff79c6">memory</span>: 4Gi
-            requests:
-              <span style="color:#ff79c6">cpu</span>: 1000m
-              <span style="color:#ff79c6">memory</span>: 2Gi
-          livenessProbe:
-            httpGet:
-              <span style="color:#ff79c6">path</span>: /login
-              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
-            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
-            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          readinessProbe:
-            httpGet:
-              <span style="color:#ff79c6">path</span>: /login
-              <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-            <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
-            <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
-            <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          volumeMounts:
-            - <span style="color:#ff79c6">name</span>: jenkinshome
-              <span style="color:#ff79c6">subPath</span>: jenkins-prd-lb
-              <span style="color:#ff79c6">mountPath</span>: /var/jenkins_home
-          env:
-            - <span style="color:#ff79c6">name</span>: LIMITS_MEMORY
-              valueFrom:
-                resourceFieldRef:
-                  <span style="color:#ff79c6">resource</span>: limits.memory
-                  <span style="color:#ff79c6">divisor</span>: 1Mi
-            - <span style="color:#ff79c6">name</span>: JAVA_OPTS
-              <span style="color:#ff79c6">value</span>: -Xmx$(LIMITS_MEMORY)m -XshowSettings:vm -Dhudson.slaves.NodeProvisioner.initialDelay=<span style="color:#bd93f9">0</span> -Dhudson.slaves.NodeProvisioner.MARGIN=<span style="color:#bd93f9">50</span> -Dhudson.slaves.NodeProvisioner.MARGIN0=<span style="color:#bd93f9">0.85</span> -Duser.timezone=Asia/Shanghai
-      securityContext:
-        <span style="color:#ff79c6">fsGroup</span>: <span style="color:#bd93f9">1000</span>
-      volumes:
-        - <span style="color:#ff79c6">name</span>: jenkinshome
-          persistentVolumeClaim:
-            <span style="color:#ff79c6">claimName</span>: jenkins-prd-lb-pvc
-<span style="color:#6272a4">###svc</span>
----
-<span style="color:#ff79c6">apiVersion</span>: v1
-<span style="color:#ff79c6">kind</span>: Service
-metadata:
-  <span style="color:#ff79c6">name</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">namespace</span>: kube-ops
-  labels:
-    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-spec:
-  selector:
-    <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-  <span style="color:#ff79c6">type</span>: LoadBalancer
-  ports:
-    - <span style="color:#ff79c6">name</span>: web
-      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
-      <span style="color:#ff79c6">targetPort</span>: web
-    - <span style="color:#ff79c6">name</span>: agent
-      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">50000</span>
-      <span style="color:#ff79c6">targetPort</span>: agent
+useage<span style="color:#ff79c6">(</span><span style="color:#ff79c6">)</span><span style="color:#ff79c6">{</span>
+    <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;useage:&#34;</span>
+    <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;  delns.sh NAMESPACE&#34;</span>
+<span style="color:#ff79c6">}</span>
 
-<span style="color:#6272a4">### ingress</span>
-<span style="color:#6272a4">#---</span>
-<span style="color:#6272a4">#apiVersion: extensions/v1beta1</span>
-<span style="color:#6272a4">#kind: Ingress</span>
-<span style="color:#6272a4">#metadata:</span>
-<span style="color:#6272a4">#  name: jenkins-prd</span>
-<span style="color:#6272a4">#  namespace: kube-ops</span>
-<span style="color:#6272a4">#  labels:</span>
-<span style="color:#6272a4">#    app: jenkins-prd</span>
-<span style="color:#6272a4">#spec:</span>
-<span style="color:#6272a4">#  rules:</span>
-<span style="color:#6272a4">#    - host: devops-pro.efivestar.com</span>
-<span style="color:#6272a4">#      http:</span>
-<span style="color:#6272a4">#        paths:</span>
-<span style="color:#6272a4">#          - path: /</span>
-<span style="color:#6272a4">#            backend:</span>
-<span style="color:#6272a4">#              serviceName: jenkins-prd</span>
-<span style="color:#6272a4">#              servicePort: 8080</span>
+<span style="color:#ff79c6">if</span> <span style="color:#ff79c6">[</span> <span style="color:#8be9fd;font-style:italic">$#</span> -lt <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">]</span>;<span style="color:#ff79c6">then</span>
+    useage
+    <span style="color:#8be9fd;font-style:italic">exit</span>
+<span style="color:#ff79c6">fi</span>
 
-</code></pre></div><p>2.config jenkins in jenkins dashboard</p>
-<h2 id="heading"></h2>
-<p>配置好jenkins的kubectl的环境变量</p>
-<p>Add  shell script on Jenkins Project</p>
-<p>在jenkins项目里面添加构建后执行的shell脚本</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/var/jenkins_home/kubectl -n pre <span style="color:#8be9fd;font-style:italic">set</span> image deployment/nginx <span style="color:#8be9fd;font-style:italic">nginx</span><span style="color:#ff79c6">=</span>wordpress
+<span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$1</span>
+<span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span>.json
+kubectl get ns <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> -o json &gt; <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+vi <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+curl -k -H <span style="color:#f1fa8c">&#34;Content-Type: application/json&#34;</span> -X PUT --data-binary @<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFLE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#f1fa8c">\</span>
+    http://127.0.0.1:8001/api/v1/namespaces/<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>/finalize
 
-</code></pre></div>
+
+</code></pre></div><p>使用的时候打开api-server</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl proxy
+
+</code></pre></div><p>脚本目前是半自动比如要删除的是 kubernetes这个namespace,等脚本打开了vi编辑器再删掉引号重的namespace(kubernetes)保存即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f1fa8c">&#34;spec&#34;</span>: <span style="color:#ff79c6">{</span>
+        <span style="color:#f1fa8c">&#34;finalizers&#34;</span>: <span style="color:#ff79c6">[</span>
+            <span style="color:#f1fa8c">&#34;kubernetes&#34;</span>
+        <span style="color:#ff79c6">]</span>
+    <span style="color:#ff79c6">}</span>,
+</code></pre></div><h4 id="再附加一段内容使用etcdctl删除的方法未经验证">再附加一段内容使用etcdctl删除的方法,未经验证</h4>
+<pre><code># 删除POD
+kubectl delete pod PODNAME --force --grace-period=0
+
+# 删除NAMESPACE
+kubectl delete namespace NAMESPACENAME --force --grace-period=0
+# 实际上验证过无法删除
+</code></pre><p>如果以上方法无法删除可以使用如下方法再重试:</p>
+<pre><code># 删除default namespace下的pod名为pod-to-be-deleted-0
+ETCDCTL_API=3 etcdctl del /registry/pods/default/pod-to-be-deleted-0
+
+# 删除需要删除的NAMESPACE
+etcdctl del /registry/namespaces/NAMESPACENAME
+</code></pre>
 
         
         
@@ -403,12 +314,12 @@ spec:
         <hr>
         <ul class="pager">
           
-          
-          <li class="next">
-            <a href="/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/" data-toggle="tooltip" data-placement="top"
-              title="Team双网卡绑定">Next
-              Post &rarr;</a>
+          <li class="previous">
+            <a href="/post/simplemysqldb/" data-toggle="tooltip" data-placement="top"
+              title="在k8s上部署一个简单的mysql">&larr;
+              Previous Post</a>
           </li>
+          
           
         </ul>
 

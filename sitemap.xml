@@ -4,36 +4,51 @@
   
   <url>
     <loc>https://zhuchance.github.io/categories/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/tags/k8s/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://zhuchance.github.io/tags/mysql/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <loc>https://zhuchance.github.io/tags/memory/</loc>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/post/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/tags/shell/</loc>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/tags/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/categories/tech/</loc>
-    <lastmod>2020-07-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhuchance.github.io/</loc>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/post/forcedeletenamespace/</loc>
+    <lastmod>2020-07-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhuchance.github.io/tags/mysql/</loc>
     <lastmod>2020-07-07T00:00:00+00:00</lastmod>
   </url>
   
