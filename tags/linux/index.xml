@@ -6,10 +6,19 @@
     <description>Recent content in Linux on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Update-Centos8.2-kernel</title>
+      <link>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</guid>
+      <description>1.查看版本 cat /etc/redhat-release CentOS Linux release 8.2.2004 (Core) uname -r 4.18.0-193.6.3.el8_2.x86_64 2.使用ELRepo仓库 使用ELRepo仓库 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org 安装ELRepo仓库的yum源： yum --disablerepo=&amp;#34;*&amp;#34; --enablerepo=&amp;#34;elrepo-kernel&amp;#34; list available Last metadata expiration check: 3:45:03 ago on Wed</description>
+    </item>
     
     <item>
       <title>golang 实现 ssh批量执行命令</title>

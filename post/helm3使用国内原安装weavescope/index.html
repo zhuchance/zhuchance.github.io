@@ -395,8 +395,8 @@ items:
         weave-scope-component: app
       namespace: weave
     spec:
-      replicas: 1
-      revisionHistoryLimit: 2
+      replicas: <span style="color:#bd93f9">1</span>
+      revisionHistoryLimit: <span style="color:#bd93f9">2</span>
       selector:
         matchLabels:
           name: weave-scope-app
@@ -417,11 +417,11 @@ items:
                 - <span style="color:#f1fa8c">&#39;--mode=app&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
+              env: <span style="color:#ff79c6">[]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               ports:
-                - containerPort: 4040
+                - containerPort: <span style="color:#bd93f9">4040</span>
                   protocol: TCP
   - apiVersion: v1
     kind: Service
@@ -447,9 +447,9 @@ items:
       type: NodePort
       ports:
         - name: app
-          port: 80
+          port: <span style="color:#bd93f9">80</span>
           protocol: TCP
-          targetPort: 4040
+          targetPort: <span style="color:#bd93f9">4040</span>
       selector:
         name: weave-scope-app
         app: weave-scope
@@ -475,8 +475,8 @@ items:
         weave-scope-component: cluster-agent
       namespace: weave
     spec:
-      replicas: 1
-      revisionHistoryLimit: 2
+      replicas: <span style="color:#bd93f9">1</span>
+      revisionHistoryLimit: <span style="color:#bd93f9">2</span>
       selector:
         matchLabels:
           name: weave-scope-cluster-agent
@@ -503,11 +503,11 @@ items:
                 - <span style="color:#f1fa8c">&#39;weave-scope-app.weave.svc.cluster.local:80&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
+              env: <span style="color:#ff79c6">[]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               ports:
-                - containerPort: 4041
+                - containerPort: <span style="color:#bd93f9">4041</span>
                   protocol: TCP
               resources:
                 requests:
@@ -534,7 +534,7 @@ items:
         weave-scope-component: agent
       namespace: weave
     spec:
-      minReadySeconds: 5
+      minReadySeconds: <span style="color:#bd93f9">5</span>
       selector:
         matchLabels:
           name: weave-scope-agent
@@ -562,7 +562,7 @@ items:
                 - <span style="color:#f1fa8c">&#39;weave-scope-app.weave.svc.cluster.local:80&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
+              env: <span style="color:#ff79c6">[]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               resources:
@@ -716,9 +716,15 @@ items:
             
             
             
+            
+            
+            
+            
             <a href="/tags/k8s" title="k8s">
               k8s
             </a>
+            
+            
             
             
             

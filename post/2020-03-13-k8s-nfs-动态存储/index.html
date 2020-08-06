@@ -235,14 +235,14 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
 <span style="color:#ff79c6">apiVersion</span>: storage.k8s.io/v1
 <span style="color:#ff79c6">kind</span>: StorageClass
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: standard
 <span style="color:#ff79c6">provisioner</span>: kubernetes.io/aws-ebs
-parameters:
+<span style="color:#ff79c6">parameters</span>:
   <span style="color:#ff79c6">type</span>: gp2
 <span style="color:#ff79c6">reclaimPolicy</span>: Retain
 <span style="color:#ff79c6">allowVolumeExpansion</span>: <span style="color:#ff79c6">true</span>
-mountOptions:
+<span style="color:#ff79c6">mountOptions</span>:
   - debug
 <span style="color:#ff79c6">volumeBindingMode</span>: Immediate
 ---
@@ -292,27 +292,27 @@ systemctl <span style="color:#8be9fd;font-style:italic">enable</span> nfs
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: PersistentVolume
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: mypv1
-spec:
-  capacity:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">capacity</span>:
     <span style="color:#ff79c6">storage</span>: 4Gi
-  accessModes:
+  <span style="color:#ff79c6">accessModes</span>:
     - ReadWriteOnce
   <span style="color:#ff79c6">persistentVolumeReclaimPolicy</span>: Recycle
-  nfs:
+  <span style="color:#ff79c6">nfs</span>:
     <span style="color:#ff79c6">path</span>: [已配置的NFS系统的路径]
     <span style="color:#ff79c6">server</span>: [已配置的NFS系统的IP地址]
 ---
 <span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
 <span style="color:#ff79c6">apiVersion</span>: v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: mypvc1
-spec:
-  accessModes:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">accessModes</span>:
     - ReadWriteOnce
-  resources:
-    requests:
+  <span style="color:#ff79c6">resources</span>:
+    <span style="color:#ff79c6">requests</span>:
       <span style="color:#ff79c6">storage</span>: 100Mi
 </code></pre></div><p>创建后，如果能够自动绑定，说明NFS系统工作正常，这样才能执行下面的步骤。</p>
 <ul>
@@ -326,14 +326,14 @@ spec:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
 <span style="color:#ff79c6">kind</span>: ServiceAccount
 <span style="color:#ff79c6">apiVersion</span>: v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: nfs-client-provisioner
 ---
 <span style="color:#ff79c6">kind</span>: ClusterRole
 <span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: nfs-client-provisioner-runner
-rules:
+<span style="color:#ff79c6">rules</span>:
   - <span style="color:#ff79c6">apiGroups</span>: [<span style="color:#f1fa8c">&#34;&#34;</span>]
     <span style="color:#ff79c6">resources</span>: [<span style="color:#f1fa8c">&#34;persistentvolumes&#34;</span>]
     <span style="color:#ff79c6">verbs</span>: [<span style="color:#f1fa8c">&#34;get&#34;</span>, <span style="color:#f1fa8c">&#34;list&#34;</span>, <span style="color:#f1fa8c">&#34;watch&#34;</span>, <span style="color:#f1fa8c">&#34;create&#34;</span>, <span style="color:#f1fa8c">&#34;delete&#34;</span>]
@@ -349,36 +349,36 @@ rules:
 ---
 <span style="color:#ff79c6">kind</span>: ClusterRoleBinding
 <span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: run-nfs-client-provisioner
-subjects:
+<span style="color:#ff79c6">subjects</span>:
   - <span style="color:#ff79c6">kind</span>: ServiceAccount
     <span style="color:#ff79c6">name</span>: nfs-client-provisioner
     <span style="color:#ff79c6">namespace</span>: default
-roleRef:
+<span style="color:#ff79c6">roleRef</span>:
   <span style="color:#ff79c6">kind</span>: ClusterRole
   <span style="color:#ff79c6">name</span>: nfs-client-provisioner-runner
   <span style="color:#ff79c6">apiGroup</span>: rbac.authorization.k8s.io
 ---
 <span style="color:#ff79c6">kind</span>: Role
 <span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: leader-locking-nfs-client-provisioner
-rules:
+<span style="color:#ff79c6">rules</span>:
   - <span style="color:#ff79c6">apiGroups</span>: [<span style="color:#f1fa8c">&#34;&#34;</span>]
     <span style="color:#ff79c6">resources</span>: [<span style="color:#f1fa8c">&#34;endpoints&#34;</span>]
     <span style="color:#ff79c6">verbs</span>: [<span style="color:#f1fa8c">&#34;get&#34;</span>, <span style="color:#f1fa8c">&#34;list&#34;</span>, <span style="color:#f1fa8c">&#34;watch&#34;</span>, <span style="color:#f1fa8c">&#34;create&#34;</span>, <span style="color:#f1fa8c">&#34;update&#34;</span>, <span style="color:#f1fa8c">&#34;patch&#34;</span>]
 ---
 <span style="color:#ff79c6">kind</span>: RoleBinding
 <span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: leader-locking-nfs-client-provisioner
-subjects:
+<span style="color:#ff79c6">subjects</span>:
   - <span style="color:#ff79c6">kind</span>: ServiceAccount
     <span style="color:#ff79c6">name</span>: nfs-client-provisioner
-    <span style="color:#6272a4"># replace with namespace where provisioner is deployed</span>
+    <span style="color:#6272a4"># replace with namespace where provisioner is deployed</span>
     <span style="color:#ff79c6">namespace</span>: default
-roleRef:
+<span style="color:#ff79c6">roleRef</span>:
   <span style="color:#ff79c6">kind</span>: Role
   <span style="color:#ff79c6">name</span>: leader-locking-nfs-client-provisioner
   <span style="color:#ff79c6">apiGroup</span>: rbac.authorization.k8s.io
@@ -386,47 +386,47 @@ roleRef:
 ---
 <span style="color:#ff79c6">apiVersion</span>: storage.k8s.io/v1
 <span style="color:#ff79c6">kind</span>: StorageClass
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: managed-nfs-storage
-<span style="color:#ff79c6">provisioner</span>: fuseim.pri/ifs <span style="color:#6272a4"># or choose another name, must match deployment&#39;s env PROVISIONER_NAME&#39;</span>
-parameters:
+<span style="color:#ff79c6">provisioner</span>: fuseim.pri/ifs <span style="color:#6272a4"># or choose another name, must match deployment&#39;s env PROVISIONER_NAME&#39;</span>
+<span style="color:#ff79c6">parameters</span>:
   <span style="color:#ff79c6">archiveOnDelete</span>: <span style="color:#f1fa8c">&#34;false&#34;</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: ServiceAccount
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: nfs-client-provisioner
 ---
 <span style="color:#ff79c6">kind</span>: Deployment
 <span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: nfs-client-provisioner
-spec:
+<span style="color:#ff79c6">spec</span>:
   <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
-  strategy:
+  <span style="color:#ff79c6">strategy</span>:
     <span style="color:#ff79c6">type</span>: Recreate
-  template:
-    metadata:
-      labels:
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">labels</span>:
         <span style="color:#ff79c6">app</span>: nfs-client-provisioner
-    spec:
+    <span style="color:#ff79c6">spec</span>:
       <span style="color:#ff79c6">serviceAccountName</span>: nfs-client-provisioner
-      containers:
+      <span style="color:#ff79c6">containers</span>:
         - <span style="color:#ff79c6">name</span>: nfs-client-provisioner
           <span style="color:#ff79c6">image</span>: quay.io/external_storage/nfs-client-provisioner:latest
-          volumeMounts:
+          <span style="color:#ff79c6">volumeMounts</span>:
             - <span style="color:#ff79c6">name</span>: nfs-client-root
               <span style="color:#ff79c6">mountPath</span>: /persistentvolumes
-          env:
+          <span style="color:#ff79c6">env</span>:
             - <span style="color:#ff79c6">name</span>: PROVISIONER_NAME
               <span style="color:#ff79c6">value</span>: fuseim.pri/ifs
             - <span style="color:#ff79c6">name</span>: NFS_SERVER
               <span style="color:#ff79c6">value</span>: [已配置的NFS系统的IP地址]
             - <span style="color:#ff79c6">name</span>: NFS_PATH
               <span style="color:#ff79c6">value</span>: [已配置的NFS系统的路径]
-      volumes:
+      <span style="color:#ff79c6">volumes</span>:
         - <span style="color:#ff79c6">name</span>: nfs-client-root
-          nfs:
+          <span style="color:#ff79c6">nfs</span>:
             <span style="color:#ff79c6">server</span>: [已配置的NFS系统的IP地址]
             <span style="color:#ff79c6">path</span>: [已配置的NFS系统的路径]
 </code></pre></div><ul>
@@ -436,38 +436,38 @@ spec:
 </ol>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">##namespace</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">##namespace</span>
 ---
-<span style="color:#6272a4">#apiVersion: v1</span>
-<span style="color:#6272a4">#kind: Namespace</span>
-<span style="color:#6272a4">#metadata:</span>
-<span style="color:#6272a4">#  name: test</span>
-<span style="color:#6272a4">##mysql-claim.yaml</span>
+<span style="color:#6272a4">#apiVersion: v1</span>
+<span style="color:#6272a4">#kind: Namespace</span>
+<span style="color:#6272a4">#metadata:</span>
+<span style="color:#6272a4">#  name: test</span>
+<span style="color:#6272a4">##mysql-claim.yaml</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: test-mysql-claim
   <span style="color:#ff79c6">namespace</span>: test
-  annotations:
+  <span style="color:#ff79c6">annotations</span>:
     <span style="color:#ff79c6">volume.beta.kubernetes.io/storage-class</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span> 
-spec:
-  accessModes:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">accessModes</span>:
     - ReadWriteOnce
-  resources:
-    requests:
+  <span style="color:#ff79c6">resources</span>:
+    <span style="color:#ff79c6">requests</span>:
       <span style="color:#ff79c6">storage</span>: 8Gi
 
-<span style="color:#6272a4">##mysql-cm.yaml </span>
+<span style="color:#6272a4">##mysql-cm.yaml </span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: ConfigMap
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: mysql-config
   <span style="color:#ff79c6">namespace</span>: test
-data:
+<span style="color:#ff79c6">data</span>:
   <span style="color:#ff79c6">my.conf</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">       </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">[mysqld]</span>
+</span><span style="color:#f1fa8c">        [mysqld]</span>
         default-time-zone=<span style="color:#f1fa8c">&#39;+8:00&#39;</span> 
         server-id=<span style="color:#bd93f9">1</span>
         log-bin=master.bin
@@ -477,51 +477,51 @@ data:
         binlog_cache_size=1M
         lower_case_table_names=<span style="color:#bd93f9">1</span>
 
-<span style="color:#6272a4">##mysql-secret.yaml</span>
+<span style="color:#6272a4">##mysql-secret.yaml</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: Secret
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: mysql-user-pwd
   <span style="color:#ff79c6">namespace</span>: test
-data:
+<span style="color:#ff79c6">data</span>:
   <span style="color:#ff79c6">mysql-root-pwd</span>: NXN0YXI=
   <span style="color:#ff79c6">mysql-app-user-pwd</span>: NXN0YXI=
   <span style="color:#ff79c6">mysql-test-user-pwd</span>: NXN0YXI= 
-<span style="color:#6272a4">##mysql-deployment.yaml</span>
+<span style="color:#6272a4">##mysql-deployment.yaml</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
 <span style="color:#ff79c6">kind</span>: Deployment
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">namespace</span>: test
-  labels:
+  <span style="color:#ff79c6">labels</span>:
     <span style="color:#ff79c6">app</span>: test-mysql
   <span style="color:#ff79c6">name</span>: test-mysql
-spec:
+<span style="color:#ff79c6">spec</span>:
   <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
-  selector:
-    matchLabels:
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">matchLabels</span>:
       <span style="color:#ff79c6">app</span>: test-mysql
-  template:
-     metadata:
-       labels:
+  <span style="color:#ff79c6">template</span>:
+     <span style="color:#ff79c6">metadata</span>:
+       <span style="color:#ff79c6">labels</span>:
          <span style="color:#ff79c6">app</span>: test-mysql
-     spec:
-       initContainers:
+     <span style="color:#ff79c6">spec</span>:
+       <span style="color:#ff79c6">initContainers</span>:
        - <span style="color:#ff79c6">name</span>: mysql-init
          <span style="color:#ff79c6">image</span>: busybox
          <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
-         env:
+         <span style="color:#ff79c6">env</span>:
          - <span style="color:#ff79c6">name</span>: MYSQL_TEST_USER_PASSWORD
-           valueFrom:
-             secretKeyRef:
+           <span style="color:#ff79c6">valueFrom</span>:
+             <span style="color:#ff79c6">secretKeyRef</span>:
                <span style="color:#ff79c6">name</span>: mysql-user-pwd
                <span style="color:#ff79c6">key</span>: mysql-test-user-pwd
-         command:
+         <span style="color:#ff79c6">command</span>:
            - sh
            - <span style="color:#f1fa8c">&#34;-c&#34;</span>
            - <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">            </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">set -ex</span>
+</span><span style="color:#f1fa8c">             set -ex</span>
              rm -rf /var/lib/mysql/lost+found
              cat &gt; /docker-entrypoint-initdb.d/mysql-test-mysql-initt.sql &lt;&lt;EOF
              create database test-mysql default character set utf8;
@@ -533,86 +533,86 @@ spec:
              insert into app values(<span style="color:#bd93f9">1</span>);
              commit;
              EOF
-         volumeMounts:
+         <span style="color:#ff79c6">volumeMounts</span>:
          - <span style="color:#ff79c6">name</span>: test-mysql
            <span style="color:#ff79c6">mountPath</span>: /var/lib/mysql
          - <span style="color:#ff79c6">name</span>: mysql-initdb
            <span style="color:#ff79c6">mountPath</span>: /docker-entrypoint-initdb.d
-       containers:
-       <span style="color:#6272a4">#这边可以更改image: mysql:5.7</span>
+       <span style="color:#ff79c6">containers</span>:
+       <span style="color:#6272a4">#这边可以更改image: mysql:5.7</span>
          - <span style="color:#ff79c6">image</span>: mysql:<span style="color:#bd93f9">5.7</span>
            <span style="color:#ff79c6">name</span>: mysql
            <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
-           env:
+           <span style="color:#ff79c6">env</span>:
            - <span style="color:#ff79c6">name</span>: MYSQL_ROOT_PASSWORD
-             valueFrom:
-               secretKeyRef:
+             <span style="color:#ff79c6">valueFrom</span>:
+               <span style="color:#ff79c6">secretKeyRef</span>:
                  <span style="color:#ff79c6">name</span>: mysql-user-pwd
                  <span style="color:#ff79c6">key</span>: mysql-root-pwd
            - <span style="color:#ff79c6">name</span>: MYSQL_PASSWORD
-             valueFrom:
-               secretKeyRef:
+             <span style="color:#ff79c6">valueFrom</span>:
+               <span style="color:#ff79c6">secretKeyRef</span>:
                  <span style="color:#ff79c6">name</span>: mysql-user-pwd
                  <span style="color:#ff79c6">key</span>: mysql-app-user-pwd
            - <span style="color:#ff79c6">name</span>: MYSQL_USER
              <span style="color:#ff79c6">value</span>: app
            - <span style="color:#ff79c6">name</span>: MYSQL_DATABASE
              <span style="color:#ff79c6">value</span>: appdb
-           volumeMounts:
+           <span style="color:#ff79c6">volumeMounts</span>:
            - <span style="color:#ff79c6">name</span>: test-mysql
              <span style="color:#ff79c6">mountPath</span>: /var/lib/mysql
            - <span style="color:#ff79c6">name</span>: mysql-initdb
              <span style="color:#ff79c6">mountPath</span>: /docker-entrypoint-initdb.d
            - <span style="color:#ff79c6">name</span>: mysql-config
              <span style="color:#ff79c6">mountPath</span>: /etc/mysql/conf.d/
-           ports:
+           <span style="color:#ff79c6">ports</span>:
            - <span style="color:#ff79c6">name</span>: mysql
              <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">3306</span>
-           livenessProbe:
-             exec:
-               command:
+           <span style="color:#ff79c6">livenessProbe</span>:
+             <span style="color:#ff79c6">exec</span>:
+               <span style="color:#ff79c6">command</span>:
                - /bin/sh
                - <span style="color:#f1fa8c">&#34;-c&#34;</span>
                - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
-               - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+               - mysql -h <span style="color:#bd93f9">127.0.0.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
              <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">30</span>
              <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
              <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
              <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">3</span>
-           readinessProbe:
-             exec:
-               command:
+           <span style="color:#ff79c6">readinessProbe</span>:
+             <span style="color:#ff79c6">exec</span>:
+               <span style="color:#ff79c6">command</span>:
                  - /bin/sh
                  - <span style="color:#f1fa8c">&#34;-c&#34;</span>
                  - MYSQL_PWD=<span style="color:#f1fa8c">&#34;${MYSQL_ROOT_PASSWORD}&#34;</span>
-                 - mysql -h <span style="color:#bd93f9">127.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
+                 - mysql -h <span style="color:#bd93f9">127.0.0.1</span> -u root -e <span style="color:#f1fa8c">&#34;SELECT 1&#34;</span>
              <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">10</span>
              <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">1</span>
              <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
              <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">3</span>
-       volumes:
+       <span style="color:#ff79c6">volumes</span>:
          - <span style="color:#ff79c6">name</span>: test-mysql
-           persistentVolumeClaim:
+           <span style="color:#ff79c6">persistentVolumeClaim</span>:
              <span style="color:#ff79c6">claimName</span>: test-mysql-claim
          - <span style="color:#ff79c6">name</span>: mysql-initdb
            <span style="color:#ff79c6">emptyDir</span>: {}
          - <span style="color:#ff79c6">name</span>: mysql-config
-           configMap:
+           <span style="color:#ff79c6">configMap</span>:
              <span style="color:#ff79c6">name</span>: mysql-config
-<span style="color:#6272a4">##services</span>
+<span style="color:#6272a4">##services</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: Service
-metadata:
-  <span style="color:#6272a4">#name: test-mysql</span>
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#6272a4">#name: test-mysql</span>
   <span style="color:#ff79c6">name</span>: test-service-application-db
   <span style="color:#ff79c6">namespace</span>: pre
-spec:
-  selector:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">selector</span>:
     <span style="color:#ff79c6">app</span>: test-mysql
-  ports:
+  <span style="color:#ff79c6">ports</span>:
   - <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">3306</span>
-    <span style="color:#6272a4"># nodePort: 33016</span>
+    <span style="color:#6272a4"># nodePort: 33016</span>
     <span style="color:#ff79c6">protocol</span>: TCP
     <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">3306</span>
     <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">3306</span>
@@ -735,9 +735,15 @@ spec:
             
             
             
+            
+            
+            
+            
             <a href="/tags/k8s" title="k8s">
               k8s
             </a>
+            
+            
             
             
             

@@ -228,101 +228,101 @@ The premise is that there is a load balancing</p>
 <p>在k8s集群里面部署Jenkins，使用load balance暴露服务</p>
 </li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">###jenkins-allinone.yaml</span>
-<span style="color:#6272a4">###PVC</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4">###jenkins-allinone.yaml</span>
+<span style="color:#6272a4">###PVC</span>
 ---
 <span style="color:#ff79c6">kind</span>: PersistentVolumeClaim
 <span style="color:#ff79c6">apiVersion</span>: v1
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: jenkins-prd-lb-pvc
   <span style="color:#ff79c6">namespace</span>: kube-ops
-spec:
+<span style="color:#ff79c6">spec</span>:
   <span style="color:#ff79c6">storageClassName</span>: <span style="color:#f1fa8c">&#34;managed-nfs-storage&#34;</span>
-  accessModes:
+  <span style="color:#ff79c6">accessModes</span>:
     - ReadWriteMany
-  resources:
-    requests:
+  <span style="color:#ff79c6">resources</span>:
+    <span style="color:#ff79c6">requests</span>:
       <span style="color:#ff79c6">storage</span>: 260Gi
 
-<span style="color:#6272a4">###deplayment</span>
+<span style="color:#6272a4">###deplayment</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
 <span style="color:#ff79c6">kind</span>: Deployment
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: jenkins-prd-lb
   <span style="color:#ff79c6">namespace</span>: kube-ops
-spec:
-  template:
-    metadata:
-      labels:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">labels</span>:
         <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-    spec:
+    <span style="color:#ff79c6">spec</span>:
       <span style="color:#ff79c6">terminationGracePeriodSeconds</span>: <span style="color:#bd93f9">10</span>
-      <span style="color:#6272a4">###serviceAccountName: jenkins2</span>
-      containers:
+      <span style="color:#6272a4">###serviceAccountName: jenkins2</span>
+      <span style="color:#ff79c6">containers</span>:
         - <span style="color:#ff79c6">name</span>: jenkins-prd-lb
           <span style="color:#ff79c6">image</span>: jenkins/jenkins:lts
           <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
-          ports:
+          <span style="color:#ff79c6">ports</span>:
             - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">8080</span>
               <span style="color:#ff79c6">name</span>: web
               <span style="color:#ff79c6">protocol</span>: TCP
             - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">50000</span>
               <span style="color:#ff79c6">name</span>: agent
               <span style="color:#ff79c6">protocol</span>: TCP
-          resources:
-            limits:
+          <span style="color:#ff79c6">resources</span>:
+            <span style="color:#ff79c6">limits</span>:
               <span style="color:#ff79c6">cpu</span>: 2000m
               <span style="color:#ff79c6">memory</span>: 4Gi
-            requests:
+            <span style="color:#ff79c6">requests</span>:
               <span style="color:#ff79c6">cpu</span>: 1000m
               <span style="color:#ff79c6">memory</span>: 2Gi
-          livenessProbe:
-            httpGet:
+          <span style="color:#ff79c6">livenessProbe</span>:
+            <span style="color:#ff79c6">httpGet</span>:
               <span style="color:#ff79c6">path</span>: /login
               <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
             <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
             <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
             <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          readinessProbe:
-            httpGet:
+          <span style="color:#ff79c6">readinessProbe</span>:
+            <span style="color:#ff79c6">httpGet</span>:
               <span style="color:#ff79c6">path</span>: /login
               <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
             <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">60</span>
             <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">5</span>
             <span style="color:#ff79c6">failureThreshold</span>: <span style="color:#bd93f9">12</span>
-          volumeMounts:
+          <span style="color:#ff79c6">volumeMounts</span>:
             - <span style="color:#ff79c6">name</span>: jenkinshome
               <span style="color:#ff79c6">subPath</span>: jenkins-prd-lb
               <span style="color:#ff79c6">mountPath</span>: /var/jenkins_home
-          env:
+          <span style="color:#ff79c6">env</span>:
             - <span style="color:#ff79c6">name</span>: LIMITS_MEMORY
-              valueFrom:
-                resourceFieldRef:
+              <span style="color:#ff79c6">valueFrom</span>:
+                <span style="color:#ff79c6">resourceFieldRef</span>:
                   <span style="color:#ff79c6">resource</span>: limits.memory
                   <span style="color:#ff79c6">divisor</span>: 1Mi
             - <span style="color:#ff79c6">name</span>: JAVA_OPTS
               <span style="color:#ff79c6">value</span>: -Xmx$(LIMITS_MEMORY)m -XshowSettings:vm -Dhudson.slaves.NodeProvisioner.initialDelay=<span style="color:#bd93f9">0</span> -Dhudson.slaves.NodeProvisioner.MARGIN=<span style="color:#bd93f9">50</span> -Dhudson.slaves.NodeProvisioner.MARGIN0=<span style="color:#bd93f9">0.85</span> -Duser.timezone=Asia/Shanghai
-      securityContext:
+      <span style="color:#ff79c6">securityContext</span>:
         <span style="color:#ff79c6">fsGroup</span>: <span style="color:#bd93f9">1000</span>
-      volumes:
+      <span style="color:#ff79c6">volumes</span>:
         - <span style="color:#ff79c6">name</span>: jenkinshome
-          persistentVolumeClaim:
+          <span style="color:#ff79c6">persistentVolumeClaim</span>:
             <span style="color:#ff79c6">claimName</span>: jenkins-prd-lb-pvc
-<span style="color:#6272a4">###svc</span>
+<span style="color:#6272a4">###svc</span>
 ---
 <span style="color:#ff79c6">apiVersion</span>: v1
 <span style="color:#ff79c6">kind</span>: Service
-metadata:
+<span style="color:#ff79c6">metadata</span>:
   <span style="color:#ff79c6">name</span>: jenkins-prd-lb
   <span style="color:#ff79c6">namespace</span>: kube-ops
-  labels:
+  <span style="color:#ff79c6">labels</span>:
     <span style="color:#ff79c6">app</span>: jenkins-prd-lb
-spec:
-  selector:
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">selector</span>:
     <span style="color:#ff79c6">app</span>: jenkins-prd-lb
   <span style="color:#ff79c6">type</span>: LoadBalancer
-  ports:
+  <span style="color:#ff79c6">ports</span>:
     - <span style="color:#ff79c6">name</span>: web
       <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8080</span>
       <span style="color:#ff79c6">targetPort</span>: web
@@ -330,24 +330,24 @@ spec:
       <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">50000</span>
       <span style="color:#ff79c6">targetPort</span>: agent
 
-<span style="color:#6272a4">### ingress</span>
-<span style="color:#6272a4">#---</span>
-<span style="color:#6272a4">#apiVersion: extensions/v1beta1</span>
-<span style="color:#6272a4">#kind: Ingress</span>
-<span style="color:#6272a4">#metadata:</span>
-<span style="color:#6272a4">#  name: jenkins-prd</span>
-<span style="color:#6272a4">#  namespace: kube-ops</span>
-<span style="color:#6272a4">#  labels:</span>
-<span style="color:#6272a4">#    app: jenkins-prd</span>
-<span style="color:#6272a4">#spec:</span>
-<span style="color:#6272a4">#  rules:</span>
-<span style="color:#6272a4">#    - host: devops-pro.efivestar.com</span>
-<span style="color:#6272a4">#      http:</span>
-<span style="color:#6272a4">#        paths:</span>
-<span style="color:#6272a4">#          - path: /</span>
-<span style="color:#6272a4">#            backend:</span>
-<span style="color:#6272a4">#              serviceName: jenkins-prd</span>
-<span style="color:#6272a4">#              servicePort: 8080</span>
+<span style="color:#6272a4">### ingress</span>
+<span style="color:#6272a4">#---</span>
+<span style="color:#6272a4">#apiVersion: extensions/v1beta1</span>
+<span style="color:#6272a4">#kind: Ingress</span>
+<span style="color:#6272a4">#metadata:</span>
+<span style="color:#6272a4">#  name: jenkins-prd</span>
+<span style="color:#6272a4">#  namespace: kube-ops</span>
+<span style="color:#6272a4">#  labels:</span>
+<span style="color:#6272a4">#    app: jenkins-prd</span>
+<span style="color:#6272a4">#spec:</span>
+<span style="color:#6272a4">#  rules:</span>
+<span style="color:#6272a4">#    - host: devops-pro.efivestar.com</span>
+<span style="color:#6272a4">#      http:</span>
+<span style="color:#6272a4">#        paths:</span>
+<span style="color:#6272a4">#          - path: /</span>
+<span style="color:#6272a4">#            backend:</span>
+<span style="color:#6272a4">#              serviceName: jenkins-prd</span>
+<span style="color:#6272a4">#              servicePort: 8080</span>
 
 </code></pre></div><p>2.config jenkins in jenkins dashboard</p>
 <h2 id="heading"></h2>
@@ -466,9 +466,15 @@ spec:
             
             
             
+            
+            
+            
+            
             <a href="/tags/k8s" title="k8s">
               k8s
             </a>
+            
+            
             
             
             

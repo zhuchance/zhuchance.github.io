@@ -6,10 +6,28 @@
     <description>Recent content in Posts on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Git-Basic-Use</title>
+      <link>https://zhuchance.github.io/post/2020-08-06-git-study/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2020-08-06-git-study/</guid>
+      <description>####github的基础用法 #####本地上传sshkey， 1.打开git bash 删除~/.ssh/* 把现有的ssh key都删掉，然后运行 ssh-keygen -t rsa</description>
+    </item>
+    
+    <item>
+      <title>Update-Centos8.2-kernel</title>
+      <link>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</guid>
+      <description>1.查看版本 cat /etc/redhat-release CentOS Linux release 8.2.2004 (Core) uname -r 4.18.0-193.6.3.el8_2.x86_64 2.使用ELRepo仓库 使用ELRepo仓库 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org 安装ELRepo仓库的yum源： yum --disablerepo=&amp;#34;*&amp;#34; --enablerepo=&amp;#34;elrepo-kernel&amp;#34; list available Last metadata expiration check: 3:45:03 ago on Wed</description>
+    </item>
     
     <item>
       <title>强制删除k8s上Terminating的Namespaces</title>
