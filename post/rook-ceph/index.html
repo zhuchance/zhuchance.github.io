@@ -286,7 +286,58 @@ Creating OSDs on PVCs using the storageClassDeviceSets 使用storageClassDeviceS
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/rook/rook/release-1.3/cluster/examples/kubernetes/ceph/common.yaml
 kubectl apply -f https://raw.githubusercontent.com/rook/rook/release-1.3/cluster/examples/kubernetes/ceph/operator.yaml
 kubectl apply -f https://raw.githubusercontent.com/rook/rook/release-1.3/cluster/examples/kubernetes/ceph/cluster.yaml
-</code></pre></div><p>顺利的话到这里就部署完成了</p>
+</code></pre></div><p>等待一会看以下状态，顺利的话到这里就部署完成了</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">[</span>root@master1 ~<span style="color:#ff79c6">]</span><span style="color:#6272a4"># kubectl -n rook-ceph get pod</span>
+NAME                                                     READY   STATUS      RESTARTS   AGE
+csi-cephfsplugin-cjlx6                                   3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-gdxjg                                   3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-kglg8                                   3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-nrsfn                                   3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-provisioner-598854d87f-7q9mh            6/6     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-provisioner-598854d87f-b7vgs            6/6     Running     <span style="color:#bd93f9">0</span>          23h
+csi-cephfsplugin-ztl82                                   3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-hjvlv                                      3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-ks488                                      3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-nzw4r                                      3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-p5w54                                      3/3     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-provisioner-dbc67ffdc-kjqh2                6/6     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-provisioner-dbc67ffdc-nn8dd                6/6     Running     <span style="color:#bd93f9">0</span>          23h
+csi-rbdplugin-rmrkc                                      3/3     Running     <span style="color:#bd93f9">0</span>          23h
+rook-ceph-crashcollector-172.20.0.181-54d5b575f7-z7h9f   1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-crashcollector-172.20.0.182-76c587599d-q22qm   1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-crashcollector-172.20.0.183-6fd9cd66c5-s8krr   1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-crashcollector-172.20.0.184-549fcf9496-sp4bl   1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-crashcollector-172.20.0.185-56678d87d5-fhf8p   1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-ceph-mgr-a-74c8579d58-pr48z                         1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-mon-a-5fcdbc75dc-h27m7                         1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-ceph-mon-b-689c9c6b5-w5c5z                          1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-ceph-mon-d-6dbf9856f9-27hzg                         1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-operator-db86d47f5-cm4r6                       1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-ceph-osd-0-84865b865-6kw77                          1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-osd-1-f4b75cb7c-x6fgp                          1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-osd-2-596bddd78d-7hnc8                         1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-osd-3-959f57ccb-mwpfr                          1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-osd-4-76b457f4cf-6kg5l                         1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-ceph-osd-prepare-172.20.0.181-q8p47                 0/1     Completed   <span style="color:#bd93f9">0</span>          4h37m
+rook-ceph-osd-prepare-172.20.0.182-2fqc9                 0/1     Completed   <span style="color:#bd93f9">0</span>          4h37m
+rook-ceph-osd-prepare-172.20.0.183-jqgkc                 0/1     Completed   <span style="color:#bd93f9">0</span>          4h37m
+rook-ceph-osd-prepare-172.20.0.184-qxvwl                 0/1     Completed   <span style="color:#bd93f9">0</span>          4h37m
+rook-ceph-osd-prepare-172.20.0.185-d2z98                 0/1     Completed   <span style="color:#bd93f9">0</span>          4h37m
+rook-ceph-tools-6b4889fdfd-vtqhp                         1/1     Running     <span style="color:#bd93f9">0</span>          22h
+rook-discover-79vjm                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-discover-s22hb                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-discover-sfntk                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-discover-tflnp                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
+rook-discover-tq794                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
+</code></pre></div><p>附上几条有用的命令：
+1.查看dashboard的密码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep <span style="color:#f1fa8c">&#34;password:&#34;</span> | awk <span style="color:#f1fa8c">&#39;{print $2}&#39;</span> | base64 --decode
+</code></pre></div><p>2.进入ceph工具箱</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n rook-ceph <span style="color:#8be9fd;font-style:italic">exec</span> -it <span style="color:#ff79c6">$(</span>kubectl -n rook-ceph get pod -l <span style="color:#f1fa8c">&#34;app=rook-ceph-tools&#34;</span> -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;{.items[0].metadata.name}&#39;</span><span style="color:#ff79c6">)</span> bash
+</code></pre></div><h4 id="测试动态pv">测试动态pv</h4>
+<p>创建storageclass
+在源码里面：
+code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
 
 
         

@@ -6,7 +6,7 @@
     <description>Recent content in GitHub on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Git-Basic-Use</title>
       <link>https://zhuchance.github.io/post/2020-08-06-git-study/</link>
-      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>https://zhuchance.github.io/post/2020-08-06-git-study/</guid>
       <description>####github的基础用法 #####本地上传sshkey， 1.打开git bash 删除~/.ssh/* 把现有的ssh key都删掉，然后运行 ssh-keygen -t rsa</description>
