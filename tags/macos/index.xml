@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>macos on 北冥鱼 Blog</title>
+    <link>https://zhuchance.github.io/tags/macos/</link>
+    <description>Recent content in macos on 北冥鱼 Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://zhuchance.github.io/tags/macos/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>macos使用socks5代理</title>
+      <link>https://zhuchance.github.io/post/macos%E4%BD%BF%E7%94%A8socks5%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/macos%E4%BD%BF%E7%94%A8socks5%E4%BB%A3%E7%90%86/</guid>
+      <description>Homebrew设置socks5 由于Homebrew下载用的是curl, 我这有两种方法让curl走socks5 设置.curlrc echo &amp;#39;socks5 = &amp;#34;127.0.0.1:1080&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.curlrc</description>
+    </item>
+    
+  </channel>
+</rss>

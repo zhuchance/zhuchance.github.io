@@ -6,10 +6,19 @@
     <description>Recent content on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>window10使用WSL2开启Ubuntu20.04</title>
+      <link>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</link>
+      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</guid>
+      <description>食用方式： windows10 开启hyperV和Window Subsystem for Linux 服务并重启，然后在商店搜索Ubuntu并安装之 绿色安装方法： (下载wsl的appx镜像)[h</description>
+    </item>
     
     <item>
       <title>Git-Basic-Use</title>
@@ -31,10 +40,10 @@
     
     <item>
       <title>强制删除k8s上Terminating的Namespaces</title>
-      <link>https://zhuchance.github.io/post/forcedeletenamespace/</link>
+      <link>https://zhuchance.github.io/post/2020-08-07-forcedeletenamespace/</link>
       <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://zhuchance.github.io/post/forcedeletenamespace/</guid>
+      <guid>https://zhuchance.github.io/post/2020-08-07-forcedeletenamespace/</guid>
       <description>转载来自 直接复制一个shell脚本吧 #!/bin/bash set -e useage(){ echo &amp;#34;useage:&amp;#34; echo &amp;#34; delns.sh NAMESPACE&amp;#34; } if [ $# -lt 1 ];then useage exit fi NAMESPACE=$1 JSONFILE=${NAMESPACE}.json kubectl get ns &amp;#34;${NAMESPACE}&amp;#34; -o json &amp;gt; &amp;#34;${JSONFILE}&amp;#34; vi &amp;#34;${JSONFILE}&amp;#34; curl -k -H &amp;#34;Content-Type: application/json&amp;#34; -X PUT --data-binary @&amp;#34;${JSONFLE}&amp;#34; \ http://127.0.0.1:8001/api/v1/namespaces/&amp;#34;${NAMESPACE}&amp;#34;/finalize 使用的时候打开ap</description>
     </item>
     
@@ -76,10 +85,10 @@
     
     <item>
       <title>golang 实现 ssh批量执行命令</title>
-      <link>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
+      <link>https://zhuchance.github.io/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
+      <guid>https://zhuchance.github.io/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
       <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
     </item>
     
@@ -148,6 +157,15 @@ He is happy with his current job, but also willing to take new challenges if the
       
       <guid>https://zhuchance.github.io/top/books/</guid>
       <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.coursera.org/lear</description>
+    </item>
+    
+    <item>
+      <title>macos使用socks5代理</title>
+      <link>https://zhuchance.github.io/post/macos%E4%BD%BF%E7%94%A8socks5%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/macos%E4%BD%BF%E7%94%A8socks5%E4%BB%A3%E7%90%86/</guid>
+      <description>Homebrew设置socks5 由于Homebrew下载用的是curl, 我这有两种方法让curl走socks5 设置.curlrc echo &amp;#39;socks5 = &amp;#34;127.0.0.1:1080&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.curlrc</description>
     </item>
     
   </channel>

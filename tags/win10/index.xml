@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>win10 on 北冥鱼 Blog</title>
+    <link>https://zhuchance.github.io/tags/win10/</link>
+    <description>Recent content in win10 on 北冥鱼 Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhuchance.github.io/tags/win10/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>window10使用WSL2开启Ubuntu20.04</title>
+      <link>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</link>
+      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</guid>
+      <description>食用方式： windows10 开启hyperV和Window Subsystem for Linux 服务并重启，然后在商店搜索Ubuntu并安装之 绿色安装方法： (下载wsl的appx镜像)[h</description>
+    </item>
+    
+  </channel>
+</rss>
