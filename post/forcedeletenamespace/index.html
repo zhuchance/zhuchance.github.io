@@ -227,7 +227,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">#!/bin/bash
 </span><span style="color:#ff79c6"></span><span style="color:#8be9fd;font-style:italic">set</span> -e
 
-useage<span style="color:#ff79c6">(){</span>
+useage<span style="color:#ff79c6">(</span><span style="color:#ff79c6">)</span><span style="color:#ff79c6">{</span>
     <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;useage:&#34;</span>
     <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;  delns.sh NAMESPACE&#34;</span>
 <span style="color:#ff79c6">}</span>
@@ -241,8 +241,8 @@ useage<span style="color:#ff79c6">(){</span>
 <span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span>.json
 kubectl get ns <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> -o json &gt; <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
 vi <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFILE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
-curl -k -H <span style="color:#f1fa8c">&#34;Content-Type: application/json&#34;</span> -X PUT --data-binary @<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFLE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#f1fa8c">\
-</span><span style="color:#f1fa8c"></span>    http://127.0.0.1:8001/api/v1/namespaces/<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>/finalize
+curl -k -H <span style="color:#f1fa8c">&#34;Content-Type: application/json&#34;</span> -X PUT --data-binary @<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">JSONFLE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#f1fa8c">\</span>
+    http://127.0.0.1:8001/api/v1/namespaces/<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">NAMESPACE</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>/finalize
 
 
 </code></pre></div><p>使用的时候打开api-server</p>
@@ -322,8 +322,8 @@ etcdctl del /registry/namespaces/NAMESPACENAME
           
           
           <li class="next">
-            <a href="/post/2020-08-06-update-centos8-kernel/" data-toggle="tooltip" data-placement="top"
-              title="Update-Centos8.2-kernel">Next
+            <a href="/post/2020-08-07-forcedeletenamespace/" data-toggle="tooltip" data-placement="top"
+              title="强制删除k8s上Terminating的Namespaces">Next
               Post &rarr;</a>
           </li>
           
@@ -379,6 +379,12 @@ etcdctl del /registry/namespaces/NAMESPACENAME
             
             
             
+            <a href="/tags/code" title="code">
+              code
+            </a>
+            
+            
+            
             
             
             
@@ -411,15 +417,33 @@ etcdctl del /registry/namespaces/NAMESPACENAME
             
             
             
+            <a href="/tags/memory" title="memory">
+              memory
+            </a>
             
             
             
+            
+            
+            
+            
+            
+            
+            <a href="/tags/shell" title="shell">
+              shell
+            </a>
             
             
             
             <a href="/tags/storage" title="storage">
               storage
             </a>
+            
+            
+            
+            
+            
+            
             
             
           </div>
@@ -536,7 +560,7 @@ etcdctl del /registry/namespaces/NAMESPACENAME
             
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 北冥鱼 Blog 2020
+                    Copyright &copy; 北冥鱼 Blog 2021
                     <br>
                     <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
                     <iframe

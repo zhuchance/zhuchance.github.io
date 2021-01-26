@@ -6,10 +6,28 @@
     <description>Recent content in Tech on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Istio 学习</title>
+      <link>https://zhuchance.github.io/post/istiostudy/</link>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/istiostudy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OneCommand</title>
+      <link>https://zhuchance.github.io/post/onecommand/</link>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/onecommand/</guid>
+      <description>MySQL压测： #生成数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --threads=8 --rate=100000 --mysql-user=root --mysql-host=10.20.30.40 --mysql-port=3306 --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 prepare #开始压测： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 run &amp;gt;&amp;gt; /home/mysysbench.log #删除数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 cleanup k</description>
+    </item>
     
     <item>
       <title>window10使用WSL2开启Ubuntu20.04</title>
@@ -44,6 +62,15 @@
       <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>https://zhuchance.github.io/post/2020-08-07-forcedeletenamespace/</guid>
+      <description>转载来自 直接复制一个shell脚本吧 #!/bin/bash set -e useage(){ echo &amp;#34;useage:&amp;#34; echo &amp;#34; delns.sh NAMESPACE&amp;#34; } if [ $# -lt 1 ];then useage exit fi NAMESPACE=$1 JSONFILE=${NAMESPACE}.json kubectl get ns &amp;#34;${NAMESPACE}&amp;#34; -o json &amp;gt; &amp;#34;${JSONFILE}&amp;#34; vi &amp;#34;${JSONFILE}&amp;#34; curl -k -H &amp;#34;Content-Type: application/json&amp;#34; -X PUT --data-binary @&amp;#34;${JSONFLE}&amp;#34; \ http://127.0.0.1:8001/api/v1/namespaces/&amp;#34;${NAMESPACE}&amp;#34;/finalize 使用的时候打开ap</description>
+    </item>
+    
+    <item>
+      <title>强制删除k8s上Terminating的Namespaces</title>
+      <link>https://zhuchance.github.io/post/forcedeletenamespace/</link>
+      <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/forcedeletenamespace/</guid>
       <description>转载来自 直接复制一个shell脚本吧 #!/bin/bash set -e useage(){ echo &amp;#34;useage:&amp;#34; echo &amp;#34; delns.sh NAMESPACE&amp;#34; } if [ $# -lt 1 ];then useage exit fi NAMESPACE=$1 JSONFILE=${NAMESPACE}.json kubectl get ns &amp;#34;${NAMESPACE}&amp;#34; -o json &amp;gt; &amp;#34;${JSONFILE}&amp;#34; vi &amp;#34;${JSONFILE}&amp;#34; curl -k -H &amp;#34;Content-Type: application/json&amp;#34; -X PUT --data-binary @&amp;#34;${JSONFLE}&amp;#34; \ http://127.0.0.1:8001/api/v1/namespaces/&amp;#34;${NAMESPACE}&amp;#34;/finalize 使用的时候打开ap</description>
     </item>
     
@@ -89,6 +116,15 @@
       <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://zhuchance.github.io/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
+      <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
+    </item>
+    
+    <item>
+      <title>golang 实现 ssh批量执行命令</title>
+      <link>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
       <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
     </item>
     

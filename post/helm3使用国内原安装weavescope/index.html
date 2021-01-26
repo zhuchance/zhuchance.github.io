@@ -395,8 +395,8 @@ items:
         weave-scope-component: app
       namespace: weave
     spec:
-      replicas: <span style="color:#bd93f9">1</span>
-      revisionHistoryLimit: <span style="color:#bd93f9">2</span>
+      replicas: 1
+      revisionHistoryLimit: 2
       selector:
         matchLabels:
           name: weave-scope-app
@@ -417,11 +417,11 @@ items:
                 - <span style="color:#f1fa8c">&#39;--mode=app&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[]</span>
+              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               ports:
-                - containerPort: <span style="color:#bd93f9">4040</span>
+                - containerPort: 4040
                   protocol: TCP
   - apiVersion: v1
     kind: Service
@@ -447,9 +447,9 @@ items:
       type: NodePort
       ports:
         - name: app
-          port: <span style="color:#bd93f9">80</span>
+          port: 80
           protocol: TCP
-          targetPort: <span style="color:#bd93f9">4040</span>
+          targetPort: 4040
       selector:
         name: weave-scope-app
         app: weave-scope
@@ -475,8 +475,8 @@ items:
         weave-scope-component: cluster-agent
       namespace: weave
     spec:
-      replicas: <span style="color:#bd93f9">1</span>
-      revisionHistoryLimit: <span style="color:#bd93f9">2</span>
+      replicas: 1
+      revisionHistoryLimit: 2
       selector:
         matchLabels:
           name: weave-scope-cluster-agent
@@ -503,11 +503,11 @@ items:
                 - <span style="color:#f1fa8c">&#39;weave-scope-app.weave.svc.cluster.local:80&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[]</span>
+              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               ports:
-                - containerPort: <span style="color:#bd93f9">4041</span>
+                - containerPort: 4041
                   protocol: TCP
               resources:
                 requests:
@@ -534,7 +534,7 @@ items:
         weave-scope-component: agent
       namespace: weave
     spec:
-      minReadySeconds: <span style="color:#bd93f9">5</span>
+      minReadySeconds: 5
       selector:
         matchLabels:
           name: weave-scope-agent
@@ -562,7 +562,7 @@ items:
                 - <span style="color:#f1fa8c">&#39;weave-scope-app.weave.svc.cluster.local:80&#39;</span>
               command:
                 - /home/weave/scope
-              env: <span style="color:#ff79c6">[]</span>
+              env: <span style="color:#ff79c6">[</span><span style="color:#ff79c6">]</span>
               image: <span style="color:#f1fa8c">&#39;docker.io/weaveworks/scope:1.13.1&#39;</span>
               imagePullPolicy: IfNotPresent
               resources:
@@ -712,6 +712,12 @@ items:
             
             
             
+            <a href="/tags/code" title="code">
+              code
+            </a>
+            
+            
+            
             
             
             
@@ -744,6 +750,9 @@ items:
             
             
             
+            <a href="/tags/memory" title="memory">
+              memory
+            </a>
             
             
             
@@ -751,12 +760,21 @@ items:
             
             
             
+            
+            
+            <a href="/tags/shell" title="shell">
+              shell
+            </a>
             
             
             
             <a href="/tags/storage" title="storage">
               storage
             </a>
+            
+            
+            
+            
             
             
             
@@ -875,7 +893,7 @@ items:
             
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 北冥鱼 Blog 2020
+                    Copyright &copy; 北冥鱼 Blog 2021
                     <br>
                     <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
                     <iframe

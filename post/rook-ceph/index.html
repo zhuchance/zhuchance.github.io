@@ -331,14 +331,39 @@ rook-discover-tflnp                                      1/1     Running     <sp
 rook-discover-tq794                                      1/1     Running     <span style="color:#bd93f9">0</span>          23h
 </code></pre></div><p>附上几条有用的命令：
 1.查看dashboard的密码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep <span style="color:#f1fa8c">&#34;password:&#34;</span> | awk <span style="color:#f1fa8c">&#39;{print $2}&#39;</span> | base64 --decode
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">~~#kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep <span style="color:#f1fa8c">&#34;password:&#34;</span> | awk <span style="color:#f1fa8c">&#39;{print $2}&#39;</span> | base64 --decode~~
+~~kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep <span style="color:#f1fa8c">&#34;password:&#34;</span>|awk <span style="color:#f1fa8c">&#39;{print $2}&#39;</span> |awk <span style="color:#f1fa8c">&#39;NR==1{print}&#39;</span>  | base64 --d~~
+
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password <span style="color:#f1fa8c">\</span>
+-o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{[&#39;data&#39;][&#39;password&#39;]}&#34;</span> <span style="color:#f1fa8c">\</span>
+| base64 --decode <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">echo</span>
 </code></pre></div><p>2.进入ceph工具箱</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n rook-ceph <span style="color:#8be9fd;font-style:italic">exec</span> -it <span style="color:#ff79c6">$(</span>kubectl -n rook-ceph get pod -l <span style="color:#f1fa8c">&#34;app=rook-ceph-tools&#34;</span> -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;{.items[0].metadata.name}&#39;</span><span style="color:#ff79c6">)</span> bash
 </code></pre></div><h4 id="测试动态pv">测试动态pv</h4>
 <p>创建storageclass
 在源码里面：
 code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
+<p>通过helm安装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add rook-release https://charts.rook.io/release
+ 
+<span style="color:#6272a4"># Helm 3</span>
+helm install --namespace rook-ceph rook-ceph rook-release/rook-ceph
+ 
+<span style="color:#6272a4"># Helm 2</span>
+helm install --namespace rook-ceph --name rook-ceph rook-release/rook-ceph
+ 
+ 
+<span style="color:#6272a4"># 参数示例</span>
+helm install --namespace rook-ceph rook-ceph rook-release/rook-ceph <span style="color:#f1fa8c">\</span>
+  --set image.repository<span style="color:#ff79c6">=</span>docker.gmem.cc/rook/ceph,logLevel<span style="color:#ff79c6">=</span>DEBUG  <span style="color:#f1fa8c">\</span>
+  --set csi.cephcsi.image<span style="color:#ff79c6">=</span>docker.gmem.cc/cephcsi/cephcsi:v3.1.0  <span style="color:#f1fa8c">\</span>
+  --set csi.registrar.image<span style="color:#ff79c6">=</span>docker.gmem.cc/k8scsi/csi-node-driver-registrar:v1.2.0  <span style="color:#f1fa8c">\</span>
+  --set csi.resizer.image<span style="color:#ff79c6">=</span>docker.gmem.cc/k8scsi/csi-resizer:v0.4.0  <span style="color:#f1fa8c">\</span>
+  --set csi.provisioner.image<span style="color:#ff79c6">=</span>docker.gmem.cc/k8scsi/csi-provisioner:v1.6.0 <span style="color:#f1fa8c">\</span>
+  --set csi.snapshotter.image<span style="color:#ff79c6">=</span>docker.gmem.cc/k8scsi/csi-snapshotter:v2.1.1  <span style="color:#f1fa8c">\</span>
+  --set csi.attacher.image<span style="color:#ff79c6">=</span>docker.gmem.cc/k8scsi/csi-attacher:v2.1.0
 
+</code></pre></div>
 
         
         
@@ -450,6 +475,12 @@ code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
             
             
             
+            <a href="/tags/code" title="code">
+              code
+            </a>
+            
+            
+            
             
             
             
@@ -482,6 +513,9 @@ code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
             
             
             
+            <a href="/tags/memory" title="memory">
+              memory
+            </a>
             
             
             
@@ -489,12 +523,21 @@ code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
             
             
             
+            
+            
+            <a href="/tags/shell" title="shell">
+              shell
+            </a>
             
             
             
             <a href="/tags/storage" title="storage">
               storage
             </a>
+            
+            
+            
+            
             
             
             
@@ -613,7 +656,7 @@ code/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml</p>
             
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 北冥鱼 Blog 2020
+                    Copyright &copy; 北冥鱼 Blog 2021
                     <br>
                     <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
                     <iframe

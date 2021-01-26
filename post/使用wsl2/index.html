@@ -225,8 +225,8 @@
 <li>转换到wsl2： wsl &ndash;set-version $(Ubuntu2004)&gt; 2 ，$(Ubuntu2004)用命令：wsl -l -v查看. 或者用wsl &ndash;set-default-version 2 设置后面安装的wsl都是2</li>
 <li>启动ssh服务：这个是大坑下面单独写；</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">ubuntu2004 config --default-user root  <span style="color:#6272a4">#设置ubuntu登录默认用户为root，这里本人的子系统名字是ubuntu，有的子系统是ubuntu1804</span>
-新建记事本命名为ubuntuSsh.bat 内容填入D:\ubuntu\ubuntu2004 -c <span style="color:#f1fa8c">&#34;service ssh start&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">ubuntu2004 config --default-user root  <span style="color:#6272a4">#设置ubuntu登录默认用户为root，这里本人的子系统名字是ubuntu，有的子系统是ubuntu1804</span>
+新建记事本命名为ubuntuSsh.bat 内容填入D:\ubuntu\ubuntu2004 -c <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">service ssh start</span><span style="color:#f1fa8c">&#34;</span>
 把ubuntuSsh.bat，放到
 C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;font-style:italic">Start </span>Menu\Programs\Startup文件夹下
 </code></pre></div>
@@ -283,6 +283,12 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;
           </li>
           
           
+          <li class="next">
+            <a href="/post/onecommand/" data-toggle="tooltip" data-placement="top"
+              title="OneCommand">Next
+              Post &rarr;</a>
+          </li>
+          
         </ul>
 
         
@@ -335,6 +341,12 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;
             
             
             
+            <a href="/tags/code" title="code">
+              code
+            </a>
+            
+            
+            
             
             
             
@@ -367,6 +379,9 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;
             
             
             
+            <a href="/tags/memory" title="memory">
+              memory
+            </a>
             
             
             
@@ -374,12 +389,21 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;
             
             
             
+            
+            
+            <a href="/tags/shell" title="shell">
+              shell
+            </a>
             
             
             
             <a href="/tags/storage" title="storage">
               storage
             </a>
+            
+            
+            
+            
             
             
             
@@ -498,7 +522,7 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\<span style="color:#8be9fd;
             
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 北冥鱼 Blog 2020
+                    Copyright &copy; 北冥鱼 Blog 2021
                     <br>
                     <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
                     <iframe

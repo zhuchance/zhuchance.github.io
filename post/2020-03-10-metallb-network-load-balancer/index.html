@@ -269,40 +269,40 @@
 <blockquote>
 <p>Layer 2 Configuration</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f -
-<span style="color:#ff79c6">apiVersion</span>: v1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c"></span><span style="color:#f1fa8c">apiVersion: v1</span>
 <span style="color:#ff79c6">kind</span>: ConfigMap
-<span style="color:#ff79c6">metadata</span>:
+metadata:
   <span style="color:#ff79c6">namespace</span>: metallb-system
   <span style="color:#ff79c6">name</span>: config
-<span style="color:#ff79c6">data</span>:
+data:
   <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">    address-pools:</span>
+</span><span style="color:#f1fa8c">   </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">address-pools:</span>
     - <span style="color:#ff79c6">name</span>: default
       <span style="color:#ff79c6">protocol</span>: layer2
-      <span style="color:#ff79c6">addresses</span>:
-      - <span style="color:#bd93f9">192.168.1.240-192.168.1.250</span>
+      addresses:
+      - <span style="color:#bd93f9">192.168</span><span style="color:#bd93f9">.1</span><span style="color:#bd93f9">.240</span><span style="color:#bd93f9">-192.168</span><span style="color:#bd93f9">.1</span><span style="color:#bd93f9">.250</span>
 EOF
 </code></pre></div><blockquote>
 <p>BGP Configuration</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f -
-<span style="color:#ff79c6">apiVersion</span>: v1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">cat &lt;&lt;EOF | kubectl create -f <span style="color:#f1fa8c">-</span><span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c"></span><span style="color:#f1fa8c">apiVersion: v1</span>
 <span style="color:#ff79c6">kind</span>: ConfigMap
-<span style="color:#ff79c6">metadata</span>:
+metadata:
   <span style="color:#ff79c6">namespace</span>: metallb-system
   <span style="color:#ff79c6">name</span>: config
-<span style="color:#ff79c6">data</span>:
+data:
   <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
-</span><span style="color:#f1fa8c">    peers:</span>
-    - <span style="color:#ff79c6">peer-address</span>: <span style="color:#bd93f9">10.0.0.1</span>
+</span><span style="color:#f1fa8c">   </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">peers:</span>
+    - <span style="color:#ff79c6">peer-address</span>: <span style="color:#bd93f9">10.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.1</span>
       <span style="color:#ff79c6">peer-asn</span>: <span style="color:#bd93f9">64501</span>
       <span style="color:#ff79c6">my-asn</span>: <span style="color:#bd93f9">64500</span>
-    <span style="color:#ff79c6">address-pools</span>:
+    address-pools:
     - <span style="color:#ff79c6">name</span>: default
       <span style="color:#ff79c6">protocol</span>: bgp
-      <span style="color:#ff79c6">addresses</span>:
-      - <span style="color:#bd93f9">192.168.10.0</span>/<span style="color:#bd93f9">24</span>
+      addresses:
+      - <span style="color:#bd93f9">192.168</span><span style="color:#bd93f9">.10</span><span style="color:#bd93f9">.0</span>/<span style="color:#bd93f9">24</span>
 EOF
 </code></pre></div><h6 id="测试">测试</h6>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4">#创建一个nginx服务，指定服务暴露使用LoadBalancer</span>
@@ -400,7 +400,7 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
           
           
           <li class="next">
-            <a href="/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" data-toggle="tooltip" data-placement="top"
+            <a href="/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" data-toggle="tooltip" data-placement="top"
               title="golang 实现 ssh批量执行命令">Next
               Post &rarr;</a>
           </li>
@@ -457,6 +457,12 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
             
             
             
+            <a href="/tags/code" title="code">
+              code
+            </a>
+            
+            
+            
             
             
             
@@ -489,6 +495,9 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
             
             
             
+            <a href="/tags/memory" title="memory">
+              memory
+            </a>
             
             
             
@@ -496,12 +505,21 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
             
             
             
+            
+            
+            <a href="/tags/shell" title="shell">
+              shell
+            </a>
             
             
             
             <a href="/tags/storage" title="storage">
               storage
             </a>
+            
+            
+            
+            
             
             
             
@@ -620,7 +638,7 @@ cat <span style="color:#f1fa8c">&lt;&lt;EOF | kubectl create -f -
             
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 北冥鱼 Blog 2020
+                    Copyright &copy; 北冥鱼 Blog 2021
                     <br>
                     <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
                     <iframe
