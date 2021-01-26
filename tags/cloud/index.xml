@@ -6,10 +6,19 @@
     <description>Recent content in cloud on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/tags/cloud/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PrometheusOperator部署</title>
+      <link>https://zhuchance.github.io/post/2021-01-26-prometheusoperator%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2021-01-26-prometheusoperator%E4%BD%BF%E7%94%A8/</guid>
+      <description>在此前的文档里面具体描述了通过operator部署Prometheus，这篇文章具体探讨一下operator的一些修改从而实现自定义。下面的</description>
+    </item>
     
     <item>
       <title>helm3 使用国内原安装Weave Scope</title>

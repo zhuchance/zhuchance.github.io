@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DNS on 北冥鱼 Blog</title>
+    <link>https://zhuchance.github.io/tags/dns/</link>
+    <description>Recent content in DNS on 北冥鱼 Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhuchance.github.io/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用Core DNS的调错过程</title>
+      <link>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</link>
+      <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</guid>
+      <description>k8s使用CoreDNS的排错过程 CoreDNS CoreDNS is a DNS server. It is written in Go. It can be used in a multitude of environments because of its flexibility.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -13,10 +13,10 @@
     
     <item>
       <title>OneCommand</title>
-      <link>https://zhuchance.github.io/post/onecommand/</link>
+      <link>https://zhuchance.github.io/post/everyday-onecommand/</link>
       <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://zhuchance.github.io/post/onecommand/</guid>
+      <guid>https://zhuchance.github.io/post/everyday-onecommand/</guid>
       <description>MySQL压测： #生成数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --threads=8 --rate=100000 --mysql-user=root --mysql-host=10.20.30.40 --mysql-port=3306 --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 prepare #开始压测： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 run &amp;gt;&amp;gt; /home/mysysbench.log #删除数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 cleanup k</description>
     </item>
     

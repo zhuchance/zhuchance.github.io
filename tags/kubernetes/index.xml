@@ -6,10 +6,37 @@
     <description>Recent content in Kubernetes on 北冥鱼 Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://zhuchance.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>k8s使用NFS实现动态存储 k8s 1.8&#43; 版本</title>
+      <link>https://zhuchance.github.io/post/2021-01-26-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8-k8s1.8&#43;%E7%89%88%E6%9C%AC/</link>
+      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2021-01-26-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8-k8s1.8&#43;%E7%89%88%E6%9C%AC/</guid>
+      <description>k8s使用NFS实现动态存储 Storage Classes StorageClass 为管理员提供了描述存储 &amp;ldquo;类&amp;rdquo; 的方法。 不同的类型可能会映射到不同的服务质量等级或备份</description>
+    </item>
+    
+    <item>
+      <title>Service LoadBalancer</title>
+      <link>https://zhuchance.github.io/post/2021-01-26-k8s-loadbalancer/</link>
+      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2021-01-26-k8s-loadbalancer/</guid>
+      <description>metalLB场景和介绍 用来给services暴露IP出来，规划一个集群同网段的IP出来，使用的时候services不能删除。 直接上代码 --- #</description>
+    </item>
+    
+    <item>
+      <title>使用Core DNS的调错过程</title>
+      <link>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</link>
+      <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</guid>
+      <description>k8s使用CoreDNS的排错过程 CoreDNS CoreDNS is a DNS server. It is written in Go. It can be used in a multitude of environments because of its flexibility.</description>
+    </item>
     
     <item>
       <title>上篇-MetalLB 裸金属负载均衡安装与使用</title>

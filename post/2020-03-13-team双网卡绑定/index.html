@@ -221,26 +221,47 @@
         <h2 id="team">Team</h2>
 <h5 id="生产环境的服务器使用的是多网卡系统是centos7于是将2个网卡绑定成一个网卡实现带宽和冗余都利用起来">生产环境的服务器使用的是多网卡，系统是centos7，于是将2个网卡绑定成一个网卡实现带宽和冗余都利用起来</h5>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt; /etc/sysconfig/network-scripts/ifcfg-team0(team网卡名字) 
-</span><span style="color:#f1fa8c">DEVICE=team网卡名字
-</span><span style="color:#f1fa8c">NAME=team网卡名字
+</span><span style="color:#f1fa8c">DEVICE=team0
+</span><span style="color:#f1fa8c">NAME=team0
 </span><span style="color:#f1fa8c">DEVICETYPE=Team
-</span><span style="color:#f1fa8c">TEAM_CONFIG=&#39;{&#34;runner&#34;:{&#34;name&#34;:&#34;lacp&#34;}}&#39;
+</span><span style="color:#f1fa8c">TEAM_CONFIG=&#34;{\&#34;runner\&#34;:{\&#34;name\&#34;:\&#34;loadbalance\&#34;}}&#34;
+</span><span style="color:#f1fa8c">BOOTPROTO=none
+</span><span style="color:#f1fa8c">DEFROUTE=yes
+</span><span style="color:#f1fa8c">IPV4_FAILURE_FATAL=no
+</span><span style="color:#f1fa8c">IPV6INIT=yes
+</span><span style="color:#f1fa8c">IPV6_AUTOCONF=yes
+</span><span style="color:#f1fa8c">IPV6_DEFROUTE=yes
+</span><span style="color:#f1fa8c">IPV6_FAILURE_FATAL=no
 </span><span style="color:#f1fa8c">ONBOOT=yes
-</span><span style="color:#f1fa8c">BRIDGE=net-br0
+</span><span style="color:#f1fa8c">IPADDR=1.2.3.4
+</span><span style="color:#f1fa8c">NETMASK=255.255.0.0
+</span><span style="color:#f1fa8c">GATEWAY=1.2.3.1
+</span><span style="color:#f1fa8c">DNS1=8.8.8.8
+</span><span style="color:#f1fa8c">DNS2=1.1.1.1
 </span><span style="color:#f1fa8c">EOF</span>
 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt;  /etc/sysconfig/network-scripts/ifcfg-eno5
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt;  /etc/sysconfig/network-scripts/ifcfg-eno0
 </span><span style="color:#f1fa8c">DEVICETYPE=TeamPort
-</span><span style="color:#f1fa8c">TEAM_MASTER=team0(team网卡名字)
-</span><span style="color:#f1fa8c">TEAM_PORT_CONFIG=&#39;{&#34;prio&#34;:9}&#39;
+</span><span style="color:#f1fa8c">DEFROUTE=yes
+</span><span style="color:#f1fa8c">IPV6_AUTOCONF=yes
+</span><span style="color:#f1fa8c">NAME=ens0
+</span><span style="color:#f1fa8c">UUID=sklrd4h8-e758-4eb0-34567-aa4567a092dc
+</span><span style="color:#f1fa8c">DEVICE=ens0
+</span><span style="color:#f1fa8c">ONBOOT=yes
+</span><span style="color:#f1fa8c">TEAM_MASTER=team0
+</span><span style="color:#f1fa8c">TEAM_PORT_CONFIG=&#39;{&#34;prio&#34;:100}&#39;
 </span><span style="color:#f1fa8c">EOF</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt; 
-</span><span style="color:#f1fa8c">/etc/sysconfig/network-scripts/ifcfg-eno5
+</span><span style="color:#f1fa8c">/etc/sysconfig/network-scripts/ifcfg-ens1
+</span><span style="color:#f1fa8c">NAME=ens1
+</span><span style="color:#f1fa8c">UUID=satd4h2-e788-4eb0-34267-aa4587a032dc
+</span><span style="color:#f1fa8c">DEVICE=ens1
+</span><span style="color:#f1fa8c">ONBOOT=yes
+</span><span style="color:#f1fa8c">TEAM_MASTER=team0
 </span><span style="color:#f1fa8c">DEVICETYPE=TeamPort
-</span><span style="color:#f1fa8c">TEAM_MASTER=team0(team网卡名字)
-</span><span style="color:#f1fa8c">TEAM_PORT_CONFIG=&#39;{&#34;prio&#34;:10}&#39;
+</span><span style="color:#f1fa8c">TEAM_PORT_CONFIG=&#39;{&#34;prio&#34;:99}&#39;
 </span><span style="color:#f1fa8c">EOF</span>
-</code></pre></div><p><strong>这篇是草稿，待完成</strong></p>
+</code></pre></div><p><strong>ok</strong></p>
 
 
         
@@ -367,6 +388,8 @@
             
             
             
+            
+            
             <a href="/tags/k8s" title="k8s">
               k8s
             </a>
@@ -386,6 +409,10 @@
             </a>
             
             
+            
+            <a href="/tags/load-balancer" title="load-balancer">
+              load-balancer
+            </a>
             
             
             
