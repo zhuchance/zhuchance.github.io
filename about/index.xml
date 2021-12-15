@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on zhuchanceの博客 - 云原生微服务容器调度</title>
+    <link>https://zhuchance.github.io/about/</link>
+    <description>Recent content in Abouts on zhuchanceの博客 - 云原生微服务容器调度</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>zhuchance@126.com (北冥鱼)</managingEditor>
+    <webMaster>zhuchance@126.com (北冥鱼)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 15 Dec 2021 15:10:52 +0800</lastBuildDate><atom:link href="https://zhuchance.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>工作和技能</title>
+      <link>https://zhuchance.github.io/about/aboutme/</link>
+      <pubDate>Wed, 15 Dec 2021 15:10:52 +0800</pubDate>
+      <author>zhuchance@126.com (北冥鱼)</author>
+      <guid>https://zhuchance.github.io/about/aboutme/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

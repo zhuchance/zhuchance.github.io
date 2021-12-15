@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - zhuchanceの博客 - 云原生微服务容器调度</title>
+        <link>https://zhuchance.github.io/posts/</link>
+        <description>所有文章 | zhuchanceの博客 - 云原生微服务容器调度</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>zhuchance@126.com (北冥鱼)</managingEditor>
+            <webMaster>zhuchance@126.com (北冥鱼)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 15 Dec 2021 15:51:52 &#43;0800</lastBuildDate><atom:link href="https://zhuchance.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>诗酒趁少年，莫负好光阴</title>
+    <link>https://zhuchance.github.io/2021%E5%B9%B4%E7%9A%84%E5%B0%BE%E5%B7%B4/</link>
+    <pubDate>Wed, 15 Dec 2021 15:51:52 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://zhuchance.github.io/2021%E5%B9%B4%E7%9A%84%E5%B0%BE%E5%B7%B4/</guid>
+    <description><![CDATA[2021年已经快到尾声了重新搞一下博客]]></description>
+</item></channel>
+</rss>

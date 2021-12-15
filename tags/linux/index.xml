@@ -1,96 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Linux on 北冥鱼 Blog</title>
-    <link>https://zhuchance.github.io/tags/linux/</link>
-    <description>Recent content in Linux on 北冥鱼 Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 26 Jan 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://zhuchance.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>k8s使用NFS实现动态存储 k8s 1.8&#43; 版本</title>
-      <link>https://zhuchance.github.io/post/2021-01-26-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8-k8s1.8&#43;%E7%89%88%E6%9C%AC/</link>
-      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2021-01-26-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8-k8s1.8&#43;%E7%89%88%E6%9C%AC/</guid>
-      <description>k8s使用NFS实现动态存储 Storage Classes StorageClass 为管理员提供了描述存储 &amp;ldquo;类&amp;rdquo; 的方法。 不同的类型可能会映射到不同的服务质量等级或备份</description>
-    </item>
-    
-    <item>
-      <title>使用Core DNS的调错过程</title>
-      <link>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</link>
-      <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2021-01-12-k8s-coredns-%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5/</guid>
-      <description>k8s使用CoreDNS的排错过程 CoreDNS CoreDNS is a DNS server. It is written in Go. It can be used in a multitude of environments because of its flexibility.</description>
-    </item>
-    
-    <item>
-      <title>OneCommand</title>
-      <link>https://zhuchance.github.io/post/everyday-onecommand/</link>
-      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/everyday-onecommand/</guid>
-      <description>MySQL压测： #生成数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --threads=8 --rate=100000 --mysql-user=root --mysql-host=10.20.30.40 --mysql-port=3306 --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 prepare #开始压测： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 run &amp;gt;&amp;gt; /home/mysysbench.log #删除数据： sysbench /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --mysql-host=10.20.30.40 --mysql-port=3306 --mysql-user=root --oltp-test-mode=complex --mysql-db=test --oltp-tables-count=10 --oltp-table-size=100000 --threads=10 --time=120 --report-interval=10 cleanup k</description>
-    </item>
-    
-    <item>
-      <title>window10使用WSL2开启Ubuntu20.04</title>
-      <link>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</link>
-      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/%E4%BD%BF%E7%94%A8wsl2/</guid>
-      <description>食用方式： windows10 开启hyperV和Window Subsystem for Linux 服务并重启，然后在商店搜索Ubuntu并安装之 绿色安装方法： (下载wsl的appx镜像)[h</description>
-    </item>
-    
-    <item>
-      <title>Update-Centos8.2-kernel</title>
-      <link>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</link>
-      <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2020-08-06-update-centos8-kernel/</guid>
-      <description>1.查看版本 cat /etc/redhat-release CentOS Linux release 8.2.2004 (Core) uname -r 4.18.0-193.6.3.el8_2.x86_64 2.使用ELRepo仓库 使用ELRepo仓库 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org 安装ELRepo仓库的yum源： yum --disablerepo=&amp;#34;*&amp;#34; --enablerepo=&amp;#34;elrepo-kernel&amp;#34; list available Last metadata expiration check: 3:45:03 ago on Wed</description>
-    </item>
-    
-    <item>
-      <title>golang 实现 ssh批量执行命令</title>
-      <link>https://zhuchance.github.io/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2020-08-09-golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
-      <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
-    </item>
-    
-    <item>
-      <title>golang 实现 ssh批量执行命令</title>
-      <link>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
-      <description>最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/mitchellh/go-homedir&amp;#34; &amp;#34;golang.org/x/crypto/ssh&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34;</description>
-    </item>
-    
-    <item>
-      <title>k8s使用NFS实现动态存储</title>
-      <link>https://zhuchance.github.io/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</link>
-      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2020-03-13-k8s-nfs-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8/</guid>
-      <description>k8s使用NFS实现动态存储 Storage Classes StorageClass 为管理员提供了描述存储 &amp;ldquo;类&amp;rdquo; 的方法。 不同的类型可能会映射到不同的服务质量等级或备份</description>
-    </item>
-    
-    <item>
-      <title>Team双网卡绑定</title>
-      <link>https://zhuchance.github.io/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</link>
-      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhuchance.github.io/post/2020-03-13-team%E5%8F%8C%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A/</guid>
-      <description>Team 生产环境的服务器使用的是多网卡，系统是centos7，于是将2个网卡绑定成一个网卡实现带宽和冗余都利用起来 cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysconfi</description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux - 标签 - zhuchanceの博客 - 云原生微服务容器调度</title>
+        <link>https://zhuchance.github.io/tags/linux/</link>
+        <description>Linux - 标签 - zhuchanceの博客 - 云原生微服务容器调度</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>zhuchance@126.com (北冥鱼)</managingEditor>
+            <webMaster>zhuchance@126.com (北冥鱼)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 14 May 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://zhuchance.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>golang 实现 ssh批量执行命令</title>
+    <link>https://zhuchance.github.io/code/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</link>
+    <pubDate>Thu, 14 May 2020 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://zhuchance.github.io/code/golang%E5%AE%9E%E7%8E%B0ssh%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/</guid>
+    <description><![CDATA[最近学习go编程，想做个ssh小工具，用来执行批量命令的，后面用来替换ansible的程序。不多说了直接贴代码： 1 2 3 4 5 6 7 8 9 10 11 12 13 14]]></description>
+</item></channel>
 </rss>
