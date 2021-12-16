@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>k8s - 分类 - zhuchanceの博客 - 云原生微服务容器调度</title>
+        <link>https://zhuchance.github.io/categories/k8s/</link>
+        <description>k8s - 分类 - zhuchanceの博客 - 云原生微服务容器调度</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>zhuchance@126.com (北冥鱼)</managingEditor>
+            <webMaster>zhuchance@126.com (北冥鱼)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 15 Dec 2021 15:10:52 &#43;0800</lastBuildDate><atom:link href="https://zhuchance.github.io/categories/k8s/" rel="self" type="application/rss+xml" /><item>
+    <title>kube-prometheus部署和使用的坑</title>
+    <link>https://zhuchance.github.io/cloud/kube-prometheus%E4%BD%BF%E7%94%A8%E5%92%8C%E5%9D%91/</link>
+    <pubDate>Wed, 15 Dec 2021 15:10:52 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://zhuchance.github.io/cloud/kube-prometheus%E4%BD%BF%E7%94%A8%E5%92%8C%E5%9D%91/</guid>
+    <description><![CDATA[在此前的文档里面具体描述了通过operator部署Prometheus，这篇文章具体探讨一下operator的一些修改从而实现自定义。下面的]]></description>
+</item></channel>
+</rss>

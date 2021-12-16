@@ -12,10 +12,10 @@
     <lastBuildDate>Wed, 15 Dec 2021 15:10:52 +0800</lastBuildDate><atom:link href="https://zhuchance.github.io/cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>kube-prometheus部署和使用的坑</title>
-      <link>https://zhuchance.github.io/cloud/2021-01-26-prometheusoperator%E4%BD%BF%E7%94%A8/</link>
+      <link>https://zhuchance.github.io/cloud/kube-prometheus%E4%BD%BF%E7%94%A8%E5%92%8C%E5%9D%91/</link>
       <pubDate>Wed, 15 Dec 2021 15:10:52 +0800</pubDate>
       <author>zhuchance@126.com (北冥鱼)</author>
-      <guid>https://zhuchance.github.io/cloud/2021-01-26-prometheusoperator%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://zhuchance.github.io/cloud/kube-prometheus%E4%BD%BF%E7%94%A8%E5%92%8C%E5%9D%91/</guid>
       <description>在此前的文档里面具体描述了通过operator部署Prometheus，这篇文章具体探讨一下operator的一些修改从而实现自定义。下面的</description>
     </item>
     
